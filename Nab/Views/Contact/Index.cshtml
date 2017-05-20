@@ -1,0 +1,64 @@
+﻿@model Nab.Models.ViewModels.ContactForm
+
+@{
+    ViewData["Title"] = "Contact";
+    ViewData["Page class"] = "page-contact";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (!@Model.IsSent)
+{
+    <p>If you wish to get in touch regarding complaints (surely not), praise, previous work, current work or even future work please do so here.</p>
+
+    @if (Model.IsPosted)
+    {
+        <p>It's broken!!!</p>
+    }
+
+    <form asp-controller="Contact" asp-action="Index" method="post" class="form-main" role="form">
+        <p class="advice-form-fields">Required fields</p>
+        <fieldset>
+            <legend>Drop me a line</legend>
+            <dl>
+                <dt>
+                    <label asp-for="UserEmail.SenderName" class="required">Your name</label>
+                </dt>
+                <dd>
+                    <input asp-for="UserEmail.SenderName" type="text" />
+                    <span asp-validation-for="UserEmail.SenderName"></span>
+                </dd>
+                <dt>
+                    <label asp-for="UserEmail.SenderEmailAddress" class="required">Your e-mail</label>
+                </dt>
+                <dd>
+                    <input asp-for="UserEmail.SenderEmailAddress" type="text" />
+                    <span asp-validation-for="UserEmail.SenderEmailAddress"></span>
+                </dd>
+                <dt>
+                    <label asp-for="UserEmail.EmailSubject" class="required">Subject</label>
+                </dt>
+                <dd>
+                    <input asp-for="UserEmail.EmailSubject" type="text" />
+                    <span asp-validation-for="UserEmail.EmailSubject"></span>
+                </dd>
+                <dt>
+                    <label asp-for="UserEmail.EmailMessage" class="required">Message</label>
+                </dt>
+                <dd>
+                    <textarea asp-for="UserEmail.EmailMessage" rows="6"></textarea>
+                    <span asp-validation-for="UserEmail.EmailMessage"></span>
+                </dd>
+            </dl>
+        </fieldset>
+        <input type="submit" value="Send" />
+    </form>
+}
+else
+{
+    <p>Thanks</p>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
