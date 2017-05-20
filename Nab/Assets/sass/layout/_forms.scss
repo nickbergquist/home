@@ -23,11 +23,11 @@
     }
 
     @include mq-medium {
-      & [name='SenderName'] { //
+      & [name$='SenderName'] { //
         width: 70%;
       }
 
-      & [name='SenderEmailAddress'] {
+      & [name$='SenderEmailAddress'] {
         width: 85%;
       }
     }
