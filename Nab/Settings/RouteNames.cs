@@ -8,6 +8,16 @@
     public static class RouteNames
     {
         public const string LibertedExpression = nameof(LibertedExpression);
-
+        public const string RailEurope = nameof(RailEurope);
+        public const string TelegraphSubs = nameof(TelegraphSubs);
+        public const string GcrRst = nameof(GcrRst);
+        public const string Nthc = nameof(Nthc);
+        public const string LmAdmin = nameof(LmAdmin);
+        public const string DmKcProto = nameof(DmKcProto);
+        public const string Tpm = nameof(Tpm);
+        public const string Marketline = nameof(Marketline);
+        public const string DmKcs = nameof(DmKcs);
+        public const string ThePod = nameof(ThePod);
+        public const string CorpTools = nameof(CorpTools);
     }
 }
