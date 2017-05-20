@@ -1,0 +1,95 @@
+﻿nav {
+  @include mq-base {
+    height: 1px;
+    left: -999em;
+    position: absolute;
+    width: auto;
+    z-index: 1;
+
+    &.active {
+      animation: shift-horizontal .3s ease-in-out;
+      height: auto;
+      left: auto;
+      top: 8rem;
+      width: 100%;
+    }
+  }
+
+  @include mq-small {
+    & li {
+      display: table-cell;
+      position: relative;
+      vertical-align: middle;
+
+      &.active {
+        &::after {
+          border-left: 25px solid transparent;
+          border-right: 25px solid transparent;
+          border-top: 15px solid palette-colour($palette-mono, 'dark');
+          bottom: -1.5rem;
+          content: '';
+          height: 0;
+          left: 50%;
+          position: absolute;
+          transform: translate(-50%, 0);
+          width: 0;
+        }
+      }
+    }
+
+    & ul {
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+    }
+  }
+
+  box-shadow: 0 3px 8px 1px $edge-shadow-colour;
+  clear: both;
+  text-align: center;
+
+  & a {
+    @include font-size-margin-ratio($nav-root-size, 0);
+
+    color: $nav-main-anchor-colour;
+    display: block;
+    font-family: #{$alt-emphasis-font-family};
+    font-variant: small-caps;
+    padding: 1.25rem percentage(20/strip-units($max-viewport-width)) 1rem; // 10px either side at full width
+    text-decoration: none;
+    text-shadow: 1px 1px 2px $edge-shadow-colour;
+    text-transform: capitalize;
+
+    &:focus {
+      text-decoration: underline;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  & .anchor-home {
+    & a {
+      @include background-plus-hover-colour($home-colour);
+    }
+  }
+
+  & .anchor-about {
+    & a {
+      @include background-plus-hover-colour($about-colour);
+    }
+  }
+
+  & .anchor-work {
+    & a {
+      @include background-plus-hover-colour($work-colour);
+    }
+  }
+
+  & .anchor-contact {
+    & a {
+      @include background-plus-hover-colour($contact-colour);
+    }
+  }
+}

@@ -1,0 +1,115 @@
+﻿
+%button-standard {
+  border-radius: 5px;
+  border-style: solid;
+  border-width: $button-border-width;
+  display: inline-block;
+  font-family: #{$button-font-family};
+  font-size: calc-rem($button-font-size)#{'rem'};
+  font-variant: small-caps;
+  padding: #{calc-rem($button-top-padding)}#{'rem'} #{calc-rem($button-horiz-padding)}#{'rem'} #{calc-rem($button-bottom-padding)}#{'rem'};
+  text-shadow: 1px 1px 2px $edge-shadow-colour;
+  text-transform: capitalize;
+}
+
+%button-show {
+  position: relative;
+
+  &::before {
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+%input-text-standard {
+  border-style: solid;
+  border-width: $input-text-standard-border-width;
+  padding: #{calc-rem($input-text-standard-vert-padding)}#{'rem'} $input-text-standard-horiz-padding;
+  width: 100%;
+}
+
+// standard script buttons
+.button {
+  @extend %button-standard;
+  @include button-theme;
+
+  &.secondary {
+    @include button-theme($button-secondary-colour);
+  }
+}
+
+// standard body form components
+.form-main {
+  & [type='text'] {
+    @extend %input-text-standard;
+    @include form-input-theme;
+  }
+
+  & [type='password'] {
+    @extend %input-text-standard;
+    @include form-input-theme;
+  }
+
+  & [type='email'] {
+    @extend %input-text-standard;
+    @include form-input-theme;
+  }
+
+  & [type='submit'] {
+    @extend %button-standard;
+    @include button-theme;
+  }
+
+  & select {
+    @extend %input-text-standard;
+    @include form-input-theme;
+  }
+
+  & textarea {
+    @extend %input-text-standard;
+    @include form-input-theme;
+
+    font: $form-legend;
+    height: 18rem;
+  }
+}
+
+// specific script buttons
+.nav-button-show {
+  @extend %button-show;
+
+  background-color: $button-nav-background-colour;
+  color: darken($button-nav-colour, 10%);
+  font-family: $svg-icons-font-family;
+  font-size: calc-rem($button-nav-font-size)#{'rem'};
+  height: calc-rem($button-nav-height)#{'rem'};
+  text-shadow: 1px 1px 2px $edge-shadow-colour;
+  width: calc-rem($button-nav-width)#{'rem'};
+
+  &::before {
+    content: $button-nav-content;
+    padding: calc-rem($button-nav-padding)#{'rem'};
+  }
+
+  &:hover {
+    color: $button-nav-hover-colour;
+  }
+
+  &.active {
+    color: $button-nav-active-colour;
+
+    &::before {
+      content: $button-nav-active-content;
+    }
+  }
+
+  & span {
+    display: inline-block;
+    overflow: hidden;
+    text-indent: -999em;
+  }
+}

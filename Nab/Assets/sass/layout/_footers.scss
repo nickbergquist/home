@@ -1,0 +1,11 @@
+﻿footer {
+  background-color: palette-colour('main', 'foreground');
+  border-top: 1px solid palette-colour('mono', 'lightest');
+  box-shadow: 0 0 3px 2px $edge-shadow-colour;
+  color: palette-colour('mono', 'lightest');
+  overflow: hidden;
+
+  & .content-restrict {
+    padding-top: 1.25rem;
+  }
+}

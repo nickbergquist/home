@@ -1,0 +1,33 @@
+﻿.hide { // invisible & inaudible
+  display: none;
+  visibility: hidden;
+}
+
+.off-screen { // invisible only
+  height: 1px;
+  left: -999em;
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+}
+
+
+@keyframes shift-horizontal {
+  0% {
+    transform: translate(-100%, 0);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes shift-vertical {
+  0% {
+    transform: translate(0, -100%);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
