@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-between;
 
   & a {
     border-bottom: 0;
@@ -51,6 +52,7 @@
   & img {
     display: block;
     margin: 0 auto;
+    width: 85%;
   }
 
   & li {
@@ -59,12 +61,14 @@
     }
 
     @include mq-large {
+      width: 33%;
+    }
+
+    @include mq-full {
       width: 25%;
     }
 
-    flex-grow: 1;
-    min-height: 20rem;
-    outline: 1px dotted palette-colour($palette-main, 'primary');
+    margin-bottom: 3rem;
     width: 100%;
   }
 }
