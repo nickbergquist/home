@@ -1,13 +1,14 @@
 ﻿.gallery {
+  align-content: space-between;
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  padding-top: 1.5rem;
 
   & a {
     border-bottom: 0;
     display: block;
-    width: 100%;
+    padding: 0 percentage(90/strip-units($max-viewport-width)); // 45px either side at full width
 
     &:focus {
       border-bottom: 0;
@@ -52,7 +53,6 @@
   & img {
     display: block;
     margin: 0 auto;
-    width: 85%;
   }
 
   & li {
