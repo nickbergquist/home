@@ -8,7 +8,7 @@
   & a {
     border-bottom: 0;
     display: block;
-    padding: 0 percentage(90/strip-units($max-viewport-width)); // 45px either side at full width
+    padding: 0 percentage(100/strip-units($max-viewport-width)); // 50px either side at full width
 
     &:focus {
       border-bottom: 0;
@@ -44,10 +44,18 @@
     color: palette-colour($palette-mono, 'lightest');
     left: 0;
     opacity: 0;
-    padding: 10px 20px;
+    padding: .75rem percentage(40/strip-units($max-viewport-width)) 1rem;
     position: absolute;
     transition: .5s ease;
     width: 100%;
+
+    & h2 {
+      @include font-size-margin-ratio($h3-size);
+    }
+
+    & p {
+      margin-bottom: 0;
+    }
   }
 
   & img {
