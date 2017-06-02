@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - nab</title>
 
-    <environment names="Development,Staging,Production">
+    <environment names="Development">
         <link rel="stylesheet" href="~/css/main.css" />
+    </environment>
+
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/css/main.min.css" />
     </environment>
 </head>
 <body>

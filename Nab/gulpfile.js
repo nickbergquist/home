@@ -43,7 +43,8 @@ gulp.task('pub-css', () => {
         .src([scssInput, scssIgnore])
         .pipe(sass(sassOptions).on('error', sass.logError))
         .pipe(autoprefixer())
-        .pipe(cleanCss().on('end', () => util.log('CSS minified')))
+		.pipe(cleanCss().on('end', () => util.log('CSS minified')))
+		.pipe(rename('main.min.css'))
         .pipe(gulp.dest(cssOutput).on('end', () => util.log('CSS written to ' + cssOutput)));
 });
 
@@ -67,7 +68,7 @@ gulp.task('theme', () => {
             .pipe(sass(sassOptions).on('error', sass.logError))
             .pipe(autoprefixer())
             //.pipe(cleanCss().on('end', () => util.log('CSS minified')))
-            .pipe(rename('main.css'))
+			.pipe(rename('main.css')) // or rename as 'main.min.css' if publishing with minification
             .pipe(gulp.dest(cssOutput).on('end', () => util.log('CSS written to ' + cssOutput)));
     } else {
         util.log('File at ' + themePath + ' missing, check the SASS theme name matches the task name parameter.');
