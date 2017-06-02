@@ -11,11 +11,15 @@ const autoprefixer = require('gulp-autoprefixer');
 const cleanCss = require('gulp-clean-css');
 const sourcemaps = require('gulp-sourcemaps');
 const config = loadJsonFile.sync('gulpconfig.json');
+const concat = require('gulp-concat');
+const uglify = require('gulp-uglify');
 
 const scssInput = config.paths.stylesheets.scss;
 const scssIgnore = config.paths.stylesheets.ignore;
 const scssThemes = config.paths.stylesheets.themes;
 const cssOutput = config.paths.stylesheets.css;
+const scriptInput = config.paths.javascript.src;
+const scriptFolder = config.paths.javascript.folder;
 
 const sassOptions = {
     errLogToConsole: true
@@ -41,6 +45,14 @@ gulp.task('pub-css', () => {
         .pipe(autoprefixer())
         .pipe(cleanCss().on('end', () => util.log('CSS minified')))
         .pipe(gulp.dest(cssOutput).on('end', () => util.log('CSS written to ' + cssOutput)));
+});
+
+gulp.task('pub-scripts', () => {
+	return gulp
+		.src([scriptFolder + '/matchMedia.js', scriptFolder + '/enquire.min.js', scriptFolder + '/site.js'])
+		.pipe(concat('site.min.js'))
+		.pipe(uglify())
+		.pipe(gulp.dest(scriptFolder))
 });
 
 // usage: gulp theme --name name-of-theme

@@ -12,8 +12,8 @@
       "themes": "./Assets/sass/themes/"
     },
     "javascript": {
-      "src": "./src/script/**/*.js",
-      "dest": "./build/script"
+      "src": "./wwwroot/js/**/*.js",
+      "folder": "./wwwroot/js"
     }
   }
 }
