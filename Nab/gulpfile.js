@@ -13,19 +13,21 @@ const sourcemaps = require('gulp-sourcemaps');
 const config = loadJsonFile.sync('gulpconfig.json');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
+const del = require('del');
 
 const scssInput = config.paths.stylesheets.scss;
 const scssIgnore = config.paths.stylesheets.ignore;
 const scssThemes = config.paths.stylesheets.themes;
 const cssOutput = config.paths.stylesheets.css;
-const scriptInput = config.paths.javascript.src;
+const scriptInput = config.paths.javascript.files;
 const scriptFolder = config.paths.javascript.folder;
 
 const sassOptions = {
     errLogToConsole: true
 };
 
-gulp.task('dev-css', () => {
+// development: compile unminified SASS with linting and sourcemaps 
+gulp.task('dev-css', ['tear-down-css'], () => {
     return gulp
         .src([scssInput, scssIgnore])
         .pipe(sassLint())
@@ -38,7 +40,8 @@ gulp.task('dev-css', () => {
         .pipe(gulp.dest(cssOutput).on('end', () => util.log('CSS written to ' + cssOutput)));
 });
 
-gulp.task('pub-css', () => {
+// production: compile SASS with minification
+gulp.task('pub-css', ['tear-down-css'], () => {
     return gulp
         .src([scssInput, scssIgnore])
         .pipe(sass(sassOptions).on('error', sass.logError))
@@ -48,12 +51,27 @@ gulp.task('pub-css', () => {
         .pipe(gulp.dest(cssOutput).on('end', () => util.log('CSS written to ' + cssOutput)));
 });
 
-gulp.task('pub-scripts', () => {
+// development: copy static JS and the main JS file over to wwwroot/js as is
+gulp.task('dev-scripts', ['tear-down-scripts'], () => {
+	return gulp.src(scriptInput)
+		.pipe(gulp.dest(scriptFolder).on('end', () => util.log('JS written to ' + scriptFolder)));
+});
+
+// production: concatenate JS and minify
+gulp.task('pub-scripts', ['tear-down-scripts'], () => {
 	return gulp
-		.src([scriptFolder + '/matchMedia.js', scriptFolder + '/enquire.min.js', scriptFolder + '/site.js'])
+		.src(['./Assets/js/static/matchMedia.js', './Assets/js/static/enquire.min.js', './Assets/js/site.js'])
 		.pipe(concat('site.min.js'))
 		.pipe(uglify())
-		.pipe(gulp.dest(scriptFolder))
+		.pipe(gulp.dest(scriptFolder).on('end', () => util.log('JS written to ' + scriptFolder)));
+});
+
+gulp.task('tear-down-css', () => {
+	return del.sync(cssOutput + '*');
+});
+
+gulp.task('tear-down-scripts', () => {
+	return del.sync(scriptFolder + '*');
 });
 
 // usage: gulp theme --name name-of-theme
@@ -78,12 +96,19 @@ gulp.task('theme', () => {
     }
 });
 
+// watch for changes in SASS or JS files
 gulp.task('watch', () => {
-    return gulp
-        .watch([scssInput, scssIgnore], ['dev-css'])
-        .on('change', (event) => {
-            console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
-        });
+	gulp.watch([scssInput, scssIgnore], ['dev-build-css']);
+	gulp.watch(scriptInput, ['dev-build-scripts']);
 });
 
-gulp.task('default', ['dev-css', 'watch']);
+// main tasks
+gulp.task('default', ['dev-build', 'watch']);
+gulp.task('dev-build', ['tear-down-css', 'tear-down-scripts', 'dev-css', 'dev-scripts']);
+
+// used by 'watch' task
+gulp.task('dev-build-css', ['tear-down-css', 'dev-css']);
+gulp.task('dev-build-scripts', ['tear-down-scripts', 'dev-scripts']);
+
+// build published
+gulp.task('pub-build', ['tear-down-css', 'tear-down-scripts', 'pub-css', 'pub-scripts']);

@@ -1,4 +1,4 @@
-// script loaded in all pages
+﻿// script loaded in all pages
 
 document.documentElement.className += ' js';
 

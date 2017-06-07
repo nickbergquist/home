@@ -12,7 +12,7 @@
       "themes": "./Assets/sass/themes/"
     },
     "javascript": {
-      "src": "./wwwroot/js/**/*.js",
+      "files": "./Assets/js/**/*.js",
       "folder": "./wwwroot/js"
     }
   }
