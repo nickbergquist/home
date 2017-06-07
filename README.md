@@ -1,9 +1,9 @@
 # nab
-gulp-sass in ASP.NET Core
+gulp-sass - an example in ASP.NET Core v.1.1
 
 ## Building CSS/JS
 
-Pre-compiled SASS and Javascript files are located in ```/Assets``` and the gulp build process deploys all output files to ```/wwwroot/css/``` and ```/wwwroot/js```
+Pre-compiled SASS and Javascript files are located in ```/Assets``` and the gulp build process deploys all output files to ```/wwwroot/css``` and ```/wwwroot/js``` respectively.
 
 ### Gulp default task - development build
 
@@ -11,7 +11,7 @@ Running ```gulp``` in a CLI opened in the same directory as ```gulpfile.js``` wi
 
 ```gulp.task('default', ['dev-build', 'watch']);```
 
-The gulp default task runs the ```dev-build``` task which applies SASS linting and compiles all SASS files into one CSS file adding source-maps and incorporating post-processing tasks. It also processes all CSS/JS into the build directories detailed above and runs the gulp ```watch``` task so that changes to any of the SASS or main JS files will result in independent builds of the SASS or JS.
+The gulp default task runs the ```dev-build``` task which applies SASS linting and compiles all SASS files into one CSS file adding source-maps and incorporating post-processing tasks. It also processes all CSS/JS into the build directories detailed above and runs the gulp ```watch``` task so that changes to any of the SASS or main JS files will result in automated independent builds of the SASS or JS.
 
 The gulp default task provides a development build; there is no file minification.
 
@@ -31,13 +31,13 @@ The SASS files within ```/Assets/sass/themes/``` are excluded from the usual com
 
 1. Add a new SASS theme file in the ```/Assets/sass/themes/``` folder. There is no need to create the file as a SASS partial because files in this directory are ignored during normal SASS compilation and naming is therefore simplified. 
 
-**Note**:
-Application of a SASS theme stylesheet works by importing the default ```main.scss``` file into the theme file, using the CSS cascade to override relevent variables stored in the ```/Assets/sass/utils/_variables.scss``` file with equivalent variables containing alternate property values in the theme file. 
+    **Note**:
+    Application of a SASS theme stylesheet works by importing the default ```main.scss``` file into the theme file, using the CSS cascade to override relevent variables stored in the ```/Assets/sass/utils/_variables.scss``` file with equivalent variables containing alternate property values in the theme file. 
 
 2. Run the gulp ```theme``` task in a CLI as a parameter, the name of the theme, is required. The format required is:
 
-```gulp theme --name name-of-theme```
+    ```gulp theme --name name-of-theme```
 
-The ```name``` parameter (in this case 'name-of-theme') must match the name of the theme file without the *.scss suffix and there is a check to this effect incorporated. This enables multiple theme files to be saved in the ```/Assets/sass/themes/``` directory that may be compiled individually.
+    The ```name``` parameter (in this case 'name-of-theme') must match the name of the theme file without the *.scss suffix and there is a check to this effect incorporated. This enables multiple theme files to be saved in the ```/Assets/sass/themes/``` directory that may be compiled individually.
 
-3. the gulp ```theme``` task should create a standard file ```main.css``` in the ```/wwwroot/css/``` folder. This is currently unminified but there is a commented pipe instruction that can be uncommented to correct this pending further refactoring.
+3. the gulp ```theme``` task creates a standard file ```main.css``` in the ```/wwwroot/css/``` folder. This is currently unminified but there is a commented pipe instruction that can be uncommented to correct this pending further refactoring... ;-)
