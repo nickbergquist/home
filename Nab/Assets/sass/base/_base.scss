@@ -85,6 +85,20 @@ h1 {
   padding: 0 percentage(20/strip-units($max-viewport-width)); // 10px either side at full width
 }
 
+.screenshot-work {
+  @include mq-medium {
+    float: left;
+    margin-right: percentage(80/strip-units($max-viewport-width));
+
+    + p {
+      margin-top: 5rem;
+    }
+  }
+
+  display: block;
+  margin: 0 auto 2rem;
+}
+
 .skip {
   &:active {
     position: static;
