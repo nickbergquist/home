@@ -32,9 +32,10 @@ namespace Nab.Services
                 emailMessage.To.Add(new MailboxAddress(es.ToName, es.ToAddress));
 
                 emailMessage.Subject = subject;
-                emailMessage.Body = new TextPart(TextFormat.Html)
+                emailMessage.Body = new TextPart(TextFormat.Text)
                 {
-                    Text = message
+                    Text = string.Format(message + "{0}{0}Original sender: " + senderEmail, Environment.NewLine)
+                    //Text = message + Environment.NewLine + "Original sender: " + senderEmail
                 };
 
                 using (var client = new SmtpClient())
