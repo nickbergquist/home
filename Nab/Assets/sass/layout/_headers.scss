@@ -19,5 +19,11 @@
 }
 
 .logo-site {
-  margin-bottom: 0;
+  & a {
+    color: darken(palette-colour($palette-mono, 'lightest'), 10%);
+    font-family: #{$base-heading-font-family};
+    font-size: calc-rem(28px)#{'rem'};
+    text-decoration: none;
+    text-shadow: 1px 1px 1px $edge-shadow-colour;
+  }
 }
