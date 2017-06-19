@@ -8,8 +8,13 @@ body {
 
 header {
   .page-home & {
-    min-height: 100%;
+    height: 100%;
     overflow: hidden;
+
+    & .content-restrict {
+      display: flex;
+      min-height: 100%;
+    }
   }
 }
 
@@ -136,11 +141,11 @@ nav {
     background-color: palette-colour-alpha('mono', 'mid', 'dark');
     box-shadow: 0 0 125px palette-colour-alpha('mono', 'lightest', 'light');
     font-size: calc-rem(21px)#{'rem'};
-    left: 50%;
-    margin-left: -16rem;
+    margin: auto;
+    min-height: 10rem;
     padding: 2.5rem;
-    position: absolute;
-    top: 40%;
+    position: relative;
+    top: -2rem;
     width: 32rem;
   }
 }
