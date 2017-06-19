@@ -19,6 +19,8 @@
 }
 
 .logo-site {
+  padding-top: .5rem;
+
   & a {
     color: darken(palette-colour($palette-mono, 'lightest'), 10%);
     font-family: #{$base-heading-font-family};

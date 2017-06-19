@@ -51,7 +51,7 @@ $svg-icons-type-path: map-get(map-get($fonts, $svg-icons-type), path);
 $svg-icons-font-family: map-get(map-get($fonts, $svg-icons-type), family);
 
 $heading-colour: darken(palette-colour($palette-main, 'background'), 5%) !default;
-$h1-size: 31px !default;
+$h1-size: 29px !default;
 $h2-size: 24px !default;
 $h3-size: 18px !default;
 $h4-size: 14px !default;
