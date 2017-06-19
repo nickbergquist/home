@@ -130,7 +130,7 @@ nav {
       box-shadow: 0 5px 10px 1px $edge-shadow-colour;
 
       &.active {
-        top: auto;
+        top: 0;
       }
     }
   }
@@ -140,7 +140,7 @@ nav {
   .page-home & {
     background-color: palette-colour-alpha('mono', 'mid', 'dark');
     box-shadow: 0 0 125px palette-colour-alpha('mono', 'lightest', 'light');
-    font-size: calc-rem(21px)#{'rem'};
+    //font-size: calc-rem(21px)#{'rem'};
     margin: auto;
     min-height: 10rem;
     padding: 2.5rem;
