@@ -9,56 +9,64 @@
 
 @if (!@Model.IsSent)
 {
-    <p>If you wish to get in touch regarding complaints (surely not), praise, previous work, current work or even future work please do so here.</p>
-
     @if (Model.IsPosted)
     {
-        <p>It's broken!!!</p>
+        <p>Sorry, a temporary error has occurred in sending your message.</p>
     }
+    else
+    {
+        <p>If you wish to get in touch regarding complaints (surely not), praise, previous work, current work or even future work please do so here.</p>
 
-    <form asp-controller="Contact" asp-action="Index" method="post" class="form-main" role="form">
-        <p class="advice-form-fields">Required fields</p>
-        <fieldset>
-            <legend>Drop me a line</legend>
-            <dl>
-                <dt>
-                    <label asp-for="UserEmail.SenderName" class="required">Your name</label>
-                </dt>
-                <dd>
-                    <input asp-for="UserEmail.SenderName" type="text" />
-                    <span asp-validation-for="UserEmail.SenderName"></span>
-                </dd>
-                <dt>
-                    <label asp-for="UserEmail.SenderEmailAddress" class="required">Your e-mail</label>
-                </dt>
-                <dd>
-                    <input asp-for="UserEmail.SenderEmailAddress" type="text" />
-                    <span asp-validation-for="UserEmail.SenderEmailAddress"></span>
-                </dd>
-                <dt>
-                    <label asp-for="UserEmail.EmailSubject" class="required">Subject</label>
-                </dt>
-                <dd>
-                    <input asp-for="UserEmail.EmailSubject" type="text" />
-                    <span asp-validation-for="UserEmail.EmailSubject"></span>
-                </dd>
-                <dt>
-                    <label asp-for="UserEmail.EmailMessage" class="required">Message</label>
-                </dt>
-                <dd>
-                    <textarea asp-for="UserEmail.EmailMessage" rows="6"></textarea>
-                    <span asp-validation-for="UserEmail.EmailMessage"></span>
-                </dd>
-            </dl>
-        </fieldset>
-        <input type="submit" value="Send" />
-    </form>
+        <form asp-controller="Contact" asp-action="Index" method="post" class="form-main" role="form">
+            <p class="advice-form-fields">Required fields</p>
+            <fieldset>
+                <legend>Drop me a line</legend>
+                <dl>
+                    <dt class="off-screen honeypot">
+                        <label asp-for="UserEmail.Honeypot">Please ignore and do not fill in this field</label>
+                    </dt>
+                    <dd class="off-screen honeypot">
+                        <input asp-for="UserEmail.Honeypot" type="text" tabindex="-1" />
+                    </dd>
+                    <dt>
+                        <label asp-for="UserEmail.SenderName" class="required">Your name</label>
+                    </dt>
+                    <dd>
+                        <input asp-for="UserEmail.SenderName" type="text" />
+                        <span asp-validation-for="UserEmail.SenderName"></span>
+                    </dd>
+                    <dt>
+                        <label asp-for="UserEmail.SenderEmailAddress" class="required">Your e-mail</label>
+                    </dt>
+                    <dd>
+                        <input asp-for="UserEmail.SenderEmailAddress" type="text" />
+                        <span asp-validation-for="UserEmail.SenderEmailAddress"></span>
+                    </dd>
+                    <dt>
+                        <label asp-for="UserEmail.EmailSubject" class="required">Subject</label>
+                    </dt>
+                    <dd>
+                        <input asp-for="UserEmail.EmailSubject" type="text" />
+                        <span asp-validation-for="UserEmail.EmailSubject"></span>
+                    </dd>
+                    <dt>
+                        <label asp-for="UserEmail.EmailMessage" class="required">Message</label>
+                    </dt>
+                    <dd>
+                        <textarea asp-for="UserEmail.EmailMessage" rows="6"></textarea>
+                        <span asp-validation-for="UserEmail.EmailMessage"></span>
+                    </dd>
+                </dl>
+            </fieldset>
+            <input type="submit" value="Send" />
+        </form>
+    }
 }
 else
 {
-    <p>Thanks</p>
+    <p>Thanks, I'll be in touch shortly.</p>
 }
 
-@section Scripts {
+@section ScriptsBody {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

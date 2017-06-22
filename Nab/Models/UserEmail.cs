@@ -22,6 +22,9 @@ namespace Nab.Models
         [Display(Name = "E-mail Message")]
         public string EmailMessage { get; set; }
 
+        // anti-spam : this should never be populated by a real user
+        public string Honeypot { get; set; }
+
         /// <summary>
         /// Constructor sets all fields to empty strings
         /// </summary>
@@ -31,6 +34,7 @@ namespace Nab.Models
             SenderEmailAddress = string.Empty;
             EmailMessage = string.Empty;
             EmailSubject = string.Empty;
+            Honeypot = string.Empty;
         }
     }
 }
