@@ -3,8 +3,8 @@
 document.documentElement.className += ' js';
 
 // touch events support
-if (!('ontouchstart' in document.documentElement)) {
-    document.documentElement.className += ' no-touch';
+if ('ontouchstart' in document.documentElement) {
+    document.documentElement.className += ' touch';
 }
 
 $(function () {

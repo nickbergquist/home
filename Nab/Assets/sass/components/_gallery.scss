@@ -39,6 +39,11 @@
   }
 
   & figcaption {
+    @include mq-base {
+      bottom: 0;
+      opacity: 1;
+    }
+
     background: palette-colour-alpha($palette-mono, 'darkest', 'medium');
     bottom: -30%;
     color: palette-colour($palette-mono, 'lightest');
