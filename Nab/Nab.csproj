@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot/favicon-paw-270x270.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Assets\js\site.js" />
     <Content Include="Assets\js\static\enquire.min.js" />
     <Content Include="Assets\js\static\matchMedia.js" />
