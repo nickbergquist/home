@@ -20,7 +20,8 @@ $palette-mono: mono;
 $home-colour: palette-colour($palette-main, 'primary') !default;
 $about-colour: palette-colour($palette-main, 'accent') !default;
 $work-colour: palette-colour($palette-main, 'foreground') !default;
-$contact-colour: palette-colour($palette-main, 'secondary') !default;
+$code-colour: palette-colour($palette-main, 'secondary') !default;
+$contact-colour: palette-colour($palette-main, 'background') !default;
 
 
 //////////////////////
