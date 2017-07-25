@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] :: Nick Bergquist</title>
 
+    @RenderSection("CssHead", required: false)
+
     <environment names="Development">
         <link rel="stylesheet" href="~/css/main.css" />
     </environment>
@@ -62,9 +64,11 @@
 
         <!-- library required to process javascript-based media queries.. requires window.matchMedia() support -->
         <script src="~/js/static/enquire.min.js"></script>
-        
+
+        <!-- main site script -->
         <script src="~/js/site.js"></script>
     </environment>
+
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"

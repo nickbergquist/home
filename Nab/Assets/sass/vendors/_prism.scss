@@ -1,0 +1,11 @@
+﻿
+// overrides for prism.css
+pre {
+  &[class*='language-'] {
+    background-color: transparent;
+    background-image: none;
+    border-left: 5px solid palette-colour($palette-main, 'secondary');
+    box-shadow: none;
+    margin-left: percentage(15/strip-units($max-viewport-width));
+  }
+}

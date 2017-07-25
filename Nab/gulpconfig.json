@@ -1,17 +1,15 @@
 ﻿{
   "publish": "full",
   "paths": {
-    "templates": {
-      "src": "./src/**/*.html",
-      "dest": "./build"
-    },
     "stylesheets": {
       "scss": "./Assets/sass/**/*.scss",
       "css": "./wwwroot/css",
       "ignore": "!./Assets/sass/themes/*",
-      "themes": "./Assets/sass/themes/"
+      "themes": "./Assets/sass/themes/",
+      "vendorCss": "./Assets/css-vendor/*.css"
     },
     "javascript": {
+      "conditional": "./Assets/js/static/conditional/*",
       "files": "./Assets/js/**/*.js",
       "folder": "./wwwroot/js"
     }

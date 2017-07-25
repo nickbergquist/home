@@ -3,5 +3,54 @@
     ViewData["Page class"] = "page-code";
 }
 
+@section CssHead {
+    @{await Html.RenderPartialAsync("_CodeBlockStylesheetsPartial"); }
+}
+
 <h1>@ViewData["Title"]</h1>
 <p>Text</p>
+
+
+
+
+
+
+<p>The "Express application generator" at <a href="https://expressjs.com/en/starter/generator.html">https://expressjs.com/en/starter/generator.html</a> is a very suitable starting point, providing a basic application framework. But as the Express document states, it's just one of many ways to structure Express apps.</p>
+
+
+<pre>
+<code class="language-css">
+p { 
+    color: red 
+}
+</code>
+</pre>
+
+
+
+<ul class="list-standard">
+    <li>list item one</li>
+    <li>list item two</li>
+    <li>list item three</li>
+    <li>list item four</li>
+    <li>list item five</li>
+    <li>list item six</li>
+</ul>
+
+<pre>
+<code class="language-javascript">
+gulp.task('vendor-css', () => {
+return gulp
+	.src(cssVendor)
+	.pipe(cleanCss().on('end', () => util.log('Vendor CSS minified')))
+	.pipe(gulp.dest(cssOutput).on('end', () => util.log('Vendor CSS written to ' + cssOutput)));
+});
+</code>
+</pre>
+
+<p>Download the code from the GitHub repository at: <a href="https://github.com/nickbergquist/node-express-sass-workflow">https://github.com/nickbergquist/node-express-sass-workflow</a></p>
+
+
+@section ScriptsBody {
+    @{await Html.RenderPartialAsync("_CodeBlockScriptsPartial"); }
+}

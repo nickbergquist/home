@@ -18,8 +18,10 @@ const del = require('del');
 const scssInput = config.paths.stylesheets.scss;
 const scssIgnore = config.paths.stylesheets.ignore;
 const scssThemes = config.paths.stylesheets.themes;
+const cssVendor = config.paths.stylesheets.vendorCss;
 const cssOutput = config.paths.stylesheets.css;
 const scriptInput = config.paths.javascript.files;
+const scriptConditional = config.paths.javascript.conditional;
 const scriptFolder = config.paths.javascript.folder;
 
 const sassOptions = {
@@ -27,7 +29,7 @@ const sassOptions = {
 };
 
 // development: compile unminified SASS with linting and sourcemaps 
-gulp.task('dev-css', ['tear-down-css'], () => {
+gulp.task('dev-css', ['tear-down-css', 'vendor-css'], () => {
     return gulp
         .src([scssInput, scssIgnore])
         .pipe(sassLint())
@@ -37,33 +39,48 @@ gulp.task('dev-css', ['tear-down-css'], () => {
         .pipe(sass(sassOptions).on('error', sass.logError))
         .pipe(autoprefixer())
         .pipe(sourcemaps.write().on('end', () => util.log('Sourcemap created')))
-        .pipe(gulp.dest(cssOutput).on('end', () => util.log('CSS written to ' + cssOutput)));
+        .pipe(gulp.dest(cssOutput).on('end', () => util.log('CSS (compiled SASS) written to ' + cssOutput)));
 });
 
 // production: compile SASS with minification
-gulp.task('pub-css', ['tear-down-css'], () => {
+gulp.task('pub-css', ['tear-down-css', 'vendor-css'], () => {
     return gulp
         .src([scssInput, scssIgnore])
         .pipe(sass(sassOptions).on('error', sass.logError))
         .pipe(autoprefixer())
 		.pipe(cleanCss().on('end', () => util.log('CSS minified')))
 		.pipe(rename('main.min.css'))
-        .pipe(gulp.dest(cssOutput).on('end', () => util.log('CSS written to ' + cssOutput)));
+        .pipe(gulp.dest(cssOutput).on('end', () => util.log('CSS (compiled SASS) minified and written to ' + cssOutput)));
+});
+
+// vendor CSS, not required on all pages but copy to wwwroot/css without appending to the main CSS file
+gulp.task('vendor-css', () => {
+	return gulp
+		.src(cssVendor)
+		.pipe(cleanCss().on('end', () => util.log('Vendor CSS minified')))
+		.pipe(gulp.dest(cssOutput).on('end', () => util.log('Vendor CSS written to ' + cssOutput)));
 });
 
 // development: copy static JS and the main JS file over to wwwroot/js as is
 gulp.task('dev-scripts', ['tear-down-scripts'], () => {
 	return gulp.src(scriptInput)
-		.pipe(gulp.dest(scriptFolder).on('end', () => util.log('JS written to ' + scriptFolder)));
+		.pipe(gulp.dest(scriptFolder).on('end', () => util.log('Unaltered JS written to ' + scriptFolder)));
 });
 
 // production: concatenate JS and minify
-gulp.task('pub-scripts', ['tear-down-scripts'], () => {
+gulp.task('pub-scripts', ['tear-down-scripts', 'vendor-js'], () => {
 	return gulp
 		.src(['./Assets/js/static/matchMedia.js', './Assets/js/static/enquire.min.js', './Assets/js/site.js'])
 		.pipe(concat('site.min.js'))
 		.pipe(uglify())
-		.pipe(gulp.dest(scriptFolder).on('end', () => util.log('JS written to ' + scriptFolder)));
+		.pipe(gulp.dest(scriptFolder).on('end', () => util.log('Minified JS written to ' + scriptFolder)));
+});
+
+// vendor JS, not required on all pages but copy to wwwroot/js without appending to the main JS file
+gulp.task('vendor-js', () => {
+	return gulp
+		.src(scriptConditional)
+		.pipe(gulp.dest(scriptFolder).on('end', () => util.log('Conditional JS written to ' + scriptFolder)));
 });
 
 gulp.task('tear-down-css', () => {
