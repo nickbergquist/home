@@ -85,18 +85,16 @@ h1 {
   padding: 0 percentage(20/strip-units($max-viewport-width)); // 10px either side at full width
 }
 
-.screenshot-work {
-  @include mq-medium {
-    float: left;
-    margin-right: percentage(80/strip-units($max-viewport-width));
+.list-standard {
+  list-style-position: inside;
+  list-style-type: square;
+  margin-left: percentage(15/strip-units($max-viewport-width));
 
-    + p {
-      margin-top: 5rem;
-    }
+  & li {
+    margin-bottom: .75rem;
+    padding-left: 1em;
+    text-indent: -1em;
   }
-
-  display: block;
-  margin: 0 auto 2rem;
 }
 
 .skip {
