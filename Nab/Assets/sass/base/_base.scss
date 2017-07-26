@@ -88,6 +88,7 @@ h1 {
 .code-inline {
   background-color: $code-inline-background-colour;
   border: 1px solid $code-inline-border-colour;
+  color: $code-inline-color;
   display: inline;
   padding: 0 .25em;
 }
