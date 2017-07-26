@@ -85,6 +85,13 @@ h1 {
   padding: 0 percentage(20/strip-units($max-viewport-width)); // 10px either side at full width
 }
 
+.code-inline {
+  background-color: $code-inline-background-colour;
+  border: 1px solid $code-inline-border-colour;
+  display: inline;
+  padding: 0 .25em;
+}
+
 .list-standard {
   list-style-position: inside;
   list-style-type: square;
