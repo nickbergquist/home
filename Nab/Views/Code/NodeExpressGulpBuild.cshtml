@@ -8,25 +8,79 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-<p>Text</p>
+<p>
+    The "Express application generator" at <a href="https://expressjs.com/en/starter/generator.html">https://expressjs.com/en/starter/generator.html</a> is a
+    great starting point, providing a basic <a href="https://expressjs.com/">Express</a> web application server framework for the <a href="https://nodejs.org/en/">node.js</a> platform. But as the Express document states, it's just one of many ways to structure Express apps.
+</p>
 
+<p>
+    The present project is concerned with developing the default application created using the "Express application generator". This will provide
+    a full <a href="http://sass-lang.com/">SASS</a> implementation and a comprehensive <a href="https://gulpjs.com/">Gulp</a> build process of front-end resources under Express 'development' or 'production' environments.
+</p>
 
+<h2>Using Express middleware</h2>
 
+<p>
+    One way to build resources is, for example, to use <a href="https://github.com/sass/node-sass-middleware">node-sass</a> and <a href="https://www.npmjs.com/package/postcss-middleware">postCSS</a>, etc. -
+    middleware within an Express application which is itself a series of middleware function calls. The default application built with the "Express application generator" using the <code>--css=sass</code> switch
+    currently (as of 2017) does just this, using <a href="https://github.com/sass/node-sass-middleware">node-sass-middleware</a> to simply compile a <b>*.sass</b> file to CSS in the same directory with a
+    source-map. Note that by default the generator sets <code class="code-inline">indentedSyntax: true</code> in the root <b>app.js</b> for the older syntax of SASS:
+</p>
 
+<pre><code class="language-javascript">var sassMiddleware = require('node-sass-middleware');
 
-
-<p>The "Express application generator" at <a href="https://expressjs.com/en/starter/generator.html">https://expressjs.com/en/starter/generator.html</a> is a very suitable starting point, providing a basic application framework. But as the Express document states, it's just one of many ways to structure Express apps.</p>
-
-
-<pre>
-<code class="language-css">
-p { 
-    color: red 
-}
+app.use(sassMiddleware({
+  src: path.join(__dirname, 'public'),
+  dest: path.join(__dirname, 'public'),
+  indentedSyntax: true, // true = .sass and false = .scss
+  sourceMap: true
+}));
 </code>
 </pre>
 
+<p>
+    Furthermore, the build processing request can be passed from one middleware function in the stack to the next.
+    So for example, in the <a href="https://github.com/sass/node-sass-middleware">node-sass-middleware documentation</a> there
+    is an example of a way in which SASS stylesheets may be compiled in one middleware function and then CSS vendor-prefixing is
+    accomplished in the subsequent middleware function:
+</p>
 
+<pre><code class="language-javascript">var connect = require('connect');
+var sassMiddleware = require('node-sass-middleware');
+var postcssMiddleware = require('postcss-middleware');
+var autoprefixer = require('autoprefixer');
+var path = require('path');
+var http = require('http');
+var app = connect();
+var destPath = __dirname + '/public';
+app.use(sassMiddleware({
+    /* Options */
+    src: __dirname
+  , response: false
+  , dest: destPath
+  , outputStyle: 'extended'
+}));
+app.use(postcssMiddleware({
+  plugins: [
+    /* Plugins */
+    autoprefixer({
+      /* Options */
+    })
+  ],
+  src: function(req) {
+    return path.join(destPath, req.url);
+  }
+}));
+
+http.createServer(app).listen(3000);
+</code>
+</pre>
+
+<h2>Using Gulp</h2>
+
+<p>
+    Instead we can use the task-runner Gulp in its capacity as a build system to 
+</p>
 
 <ul class="list-standard">
     <li>list item one</li>
@@ -37,16 +91,39 @@ p {
     <li>list item six</li>
 </ul>
 
-<pre>
-<code class="language-javascript">
-gulp.task('vendor-css', () => {
-return gulp
-	.src(cssVendor)
-	.pipe(cleanCss().on('end', () => util.log('Vendor CSS minified')))
-	.pipe(gulp.dest(cssOutput).on('end', () => util.log('Vendor CSS written to ' + cssOutput)));
+<pre><code class="language-javascript">"scripts": {
+    "start": "Set NODE_ENV=production&& gulp"
+}
+</code>
+</pre>
+
+<pre><code class="language-javascript">// gulp default tasks
+if(process.env.NODE_ENV === 'production'){
+    gulp.task('default', ['clean', 'publish']);
+} else {
+    gulp.task('default', ['clean', 'build', 'watch']);
+}
+
+gulp.task('build', ['build-css', 'build-pug', 'build-fonts', 'build-js'], () => {
+    gulpUtil.log(gulpUtil.colors.green('Application built'));
+    nodemonInit();
+});
+
+gulp.task('publish', ['pub-css', 'pub-pug', 'pub-fonts', 'pub-js'], () => {
+    gulpUtil.log(gulpUtil.colors.green('Application published. No watch on assets'));
+    nodeInit();
 });
 </code>
 </pre>
+
+<pre><code class="language-sass">&#64;mixin mq-base {
+    &#64;media (max-width: #{map-get($breakpoints, 'small') - 1px}) {
+        &#64;content;
+    }
+}
+</code>
+</pre>
+
 
 <p>Download the code from the GitHub repository at: <a href="https://github.com/nickbergquist/node-express-sass-workflow">https://github.com/nickbergquist/node-express-sass-workflow</a></p>
 
