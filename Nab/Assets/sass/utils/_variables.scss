@@ -115,6 +115,8 @@ $edge-shadow-colour: palette-colour-alpha($palette-mono, 'darkest', 'light') !de
 $code-inline-background-colour: palette-colour($palette-mono, 'offwhite') !default;
 $code-inline-border-colour: palette-colour($palette-mono, 'lighter') !default;
 $code-inline-color: palette-colour($palette-mono, 'dark') !default;
+$note-color: palette-colour($palette-main, 'primary') !default;
+$note-font-size: 15px;
 
 /////////////////
 //  viewport   //
