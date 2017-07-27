@@ -9,20 +9,21 @@
 
 <h1>@ViewData["Title"]</h1>
 <p>
-    The "Express application generator" at <a href="https://expressjs.com/en/starter/generator.html">https://expressjs.com/en/starter/generator.html</a> is a
+    The 'Express application generator' at <a href="https://expressjs.com/en/starter/generator.html">https://expressjs.com/en/starter/generator.html</a> is a
     great starting point, providing a basic <a href="https://expressjs.com/">Express</a> web application server framework for the <a href="https://nodejs.org/en/">node.js</a> platform. But as the Express document states, it's just one of many ways to structure Express apps.
 </p>
 
 <p>
-    The present project is concerned with developing the default application created using the "Express application generator". This will provide
+    The present project is concerned with developing the default application created using the 'Express application generator'. This will provide
     a full <a href="http://sass-lang.com/">SASS</a> implementation and a comprehensive <a href="https://gulpjs.com/">Gulp</a> build process of front-end resources under Express 'development' or 'production' environments.
+    The project can be cloned from: <a href="https://github.com/nickbergquist/node-express-sass-workflow">https://github.com/nickbergquist/node-express-sass-workflow</a>
 </p>
 
 <h2>Using Express middleware</h2>
 
 <p>
     One way to build resources is, for example, to use <a href="https://github.com/sass/node-sass-middleware">node-sass</a> and <a href="https://www.npmjs.com/package/postcss-middleware">postCSS</a>, etc. -
-    middleware within an Express application which is itself a series of middleware function calls. The default application built with the "Express application generator" using the <code>--css=sass</code> switch
+    middleware within an Express application which is itself a series of middleware function calls. The default application built with the "Express application generator" using the <code class="code-inline">--css=sass</code> switch
     currently (as of 2017) does just this, using <a href="https://github.com/sass/node-sass-middleware">node-sass-middleware</a> to simply compile a <b>*.sass</b> file to CSS in the same directory with a
     source-map. Note that by default the generator sets <code class="code-inline">indentedSyntax: true</code> in the root <b>app.js</b> for the older syntax of SASS:
 </p>
@@ -54,19 +55,13 @@ var http = require('http');
 var app = connect();
 var destPath = __dirname + '/public';
 app.use(sassMiddleware({
-    /* Options */
     src: __dirname
   , response: false
   , dest: destPath
   , outputStyle: 'extended'
 }));
 app.use(postcssMiddleware({
-  plugins: [
-    /* Plugins */
-    autoprefixer({
-      /* Options */
-    })
-  ],
+  plugins: [autoprefixer()],
   src: function(req) {
     return path.join(destPath, req.url);
   }
@@ -76,26 +71,69 @@ http.createServer(app).listen(3000);
 </code>
 </pre>
 
+<p>
+    This is all useful to know but in reality there is usually extensive build processing to be done on front-end resources. So
+    rather than have this done in <b>app.js</b> which should focus on application logic it seems sensible to engage a dedicated 
+    task-runner such as Gulp which can also be used to start both the Express server and the application itself. In Express 4.0 
+    this process is begun with a movement of the server object creation, server listening and server error handling away 
+    from <b>app.js</b> into <b>bin/www</b>.
+</p>
+
 <h2>Using Gulp</h2>
 
 <p>
-    Instead we can use the task-runner Gulp in its capacity as a build system to 
+    Using the task-runner Gulp to build the front-end resources provides a straightforward way to:
 </p>
 
 <ul class="list-standard">
-    <li>list item one</li>
-    <li>list item two</li>
-    <li>list item three</li>
-    <li>list item four</li>
-    <li>list item five</li>
-    <li>list item six</li>
+    <li>differentiate on the build files required for 'development' or 'production' environments</li>
+    <li>set up gulp watch tasks to automatically recompile and/or build specific files when they are edited</li>
+    <li>apply linting or uniform coding standards to particular filetypes</li>
+    <li>restart the application when server-side Javascript files change using <a href="https://www.npmjs.com/package/gulp-nodemon">node-mon</a></li>
+    <li>concatenate client-side Javascript files for fewer HTTP requests</li>
+    <li>minify files removing all unneccessary code from build files without affecting functionality</li>
+    <li>write source-maps so that debugging tools can map the built code back to the original source code</li>
 </ul>
+
+<p>
+    In order to do this the application structure has been changed to facilitate building resources into two root directories, <b>build</b> or
+    <b>dist</b> rather than the default <b>public</b> one which serves as both the source and destination in the default application provided 
+    by the 'Express application generator'. A new source directory <b>assets</b> is the working directory. 
+</p>
+
+<h3>Creating the builds</h3>
+
+<p>
+    Once the project has been cloned, opening up a CLI in the root directory will enable two commands to be issued; either enter <code class="code-inline">gulp</code> for
+    a 'development' build or <code class="code-inline">npm start</code> for a 'production' build. In either case the build directories and files will be cleared out prior 
+    to the build taking place so that in effect the application is running in either environment with only the build files required for that environment. In a real instance
+    you may wish to have both builds coexisting on disk and only the application environment switched.
+</p>
+
+<p>
+    <span class="note">Note</span>: If a 'development' build is made then entering <code class="code-inline">gulp</code> will run the Gulp 'default' task. If a 'production' build is made then
+    running <code class="code-inline">npm start</code> node will search for a <code class="code-inline">scripts</code> object and then run the command in the associated value
+    of a key named <code class="code-inline">start</code> in <b>package.json</b>:
+</p>
 
 <pre><code class="language-javascript">"scripts": {
     "start": "Set NODE_ENV=production&& gulp"
 }
 </code>
 </pre>
+
+<p>
+    In a 'development' build the following takes place:
+</p>
+
+<ul class="list-standard">
+    <li>linting takes place</li>
+    <li>files and directories are copied to the <b>build</b> directory</li>
+    <li>files are not concatenated nor minified</li>
+    <li>node-mon restarts the application when changes to Javascript files occur</li>
+</ul>
+
+
 
 <pre><code class="language-javascript">// gulp default tasks
 if(process.env.NODE_ENV === 'production'){
@@ -116,18 +154,10 @@ gulp.task('publish', ['pub-css', 'pub-pug', 'pub-fonts', 'pub-js'], () => {
 </code>
 </pre>
 
-<pre><code class="language-sass">&#64;mixin mq-base {
-    &#64;media (max-width: #{map-get($breakpoints, 'small') - 1px}) {
-        &#64;content;
+
+    <p>Download the code from the GitHub repository at: <a href="https://github.com/nickbergquist/node-express-sass-workflow">https://github.com/nickbergquist/node-express-sass-workflow</a></p>
+
+
+    @section ScriptsBody {
+        @{await Html.RenderPartialAsync("_CodeBlockScriptsPartial"); }
     }
-}
-</code>
-</pre>
-
-
-<p>Download the code from the GitHub repository at: <a href="https://github.com/nickbergquist/node-express-sass-workflow">https://github.com/nickbergquist/node-express-sass-workflow</a></p>
-
-
-@section ScriptsBody {
-    @{await Html.RenderPartialAsync("_CodeBlockScriptsPartial"); }
-}
