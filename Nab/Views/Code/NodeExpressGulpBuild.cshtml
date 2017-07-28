@@ -15,7 +15,7 @@
 
 <p>
     The present project is concerned with developing the default application created using the 'Express application generator'. This will provide
-    a full <a href="http://sass-lang.com/">SASS</a> implementation and a comprehensive <a href="https://gulpjs.com/">Gulp</a> build process of front-end resources under Express 'development' or 'production' environments.
+    a full <a href="http://sass-lang.com/">SASS</a> implementation, <a href="https://pugjs.org/">Pug</a> templating and a comprehensive <a href="https://gulpjs.com/">Gulp</a> build process of front-end resources under Express 'development' or 'production' environments.
     The project can be cloned from: <a href="https://github.com/nickbergquist/node-express-sass-workflow">https://github.com/nickbergquist/node-express-sass-workflow</a>
 </p>
 
@@ -36,8 +36,7 @@ app.use(sassMiddleware({
   indentedSyntax: true, // true = .sass and false = .scss
   sourceMap: true
 }));
-</code>
-</pre>
+</code></pre>
 
 <p>
     Furthermore, the build processing request can be passed from one middleware function in the stack to the next.
@@ -68,14 +67,14 @@ app.use(postcssMiddleware({
 }));
 
 http.createServer(app).listen(3000);
-</code>
-</pre>
+</code></pre>
 
 <p>
-    This is all useful to know but in reality there is usually extensive build processing to be done on front-end resources. So
-    rather than have this done in <b>app.js</b> which should focus on application logic it seems sensible to engage a dedicated 
-    task-runner such as Gulp which can also be used to start both the Express server and the application itself. In Express 4.0 
-    this process is begun with a movement of the server object creation, server listening and server error handling away 
+    This is all useful to know but in practical terms there is usually extensive build processing to be done on front-end resources. 
+    And ultimately Gulp is about creating files whereas Express is responsible for routing and serving them. 
+    So rather than have this done in <b>app.js</b> which should focus on application logic it seems sensible to engage a dedicated
+    task-runner such as Gulp which can also be used to start both the Express server and the application itself. In Express 4.0
+    this process is begun with a movement of the server object creation, server listening and server error handling away
     from <b>app.js</b> into <b>bin/www</b>.
 </p>
 
@@ -87,8 +86,9 @@ http.createServer(app).listen(3000);
 
 <ul class="list-standard">
     <li>differentiate on the build files required for 'development' or 'production' environments</li>
-    <li>set up gulp watch tasks to automatically recompile and/or build specific files when they are edited</li>
     <li>apply linting or uniform coding standards to particular filetypes</li>
+    <li>compile certain files and perform post-compilation tasks</li>
+    <li>set up gulp watch tasks to automatically recompile and/or build specific files when they are edited</li>
     <li>restart the application when server-side Javascript files change using <a href="https://www.npmjs.com/package/gulp-nodemon">node-mon</a></li>
     <li>concatenate client-side Javascript files for fewer HTTP requests</li>
     <li>minify files removing all unneccessary code from build files without affecting functionality</li>
@@ -97,21 +97,21 @@ http.createServer(app).listen(3000);
 
 <p>
     In order to do this the application structure has been changed to facilitate building resources into two root directories, <b>build</b> or
-    <b>dist</b> rather than the default <b>public</b> one which serves as both the source and destination in the default application provided 
-    by the 'Express application generator'. A new source directory <b>assets</b> is the working directory. 
+    <b>dist</b> rather than the default <b>public</b> one that served as both the source and destination in the default application provided
+    by the 'Express application generator'. A new source directory <b>assets</b> forms the working directory.
 </p>
 
 <h3>Creating the builds</h3>
 
 <p>
-    Once the project has been cloned, opening up a CLI in the root directory will enable two commands to be issued; either enter <code class="code-inline">gulp</code> for
-    a 'development' build or <code class="code-inline">npm start</code> for a 'production' build. In either case the build directories and files will be cleared out prior 
+    Once the project has been cloned and dependencies installed via npm open up a CLI in the root directory and either enter <code class="code-inline">gulp</code> for
+    a 'development' build or <code class="code-inline">npm start</code> for a 'production' build. In either case the build directories and files will be cleared out prior
     to the build taking place so that in effect the application is running in either environment with only the build files required for that environment. In a real instance
     you may wish to have both builds coexisting on disk and only the application environment switched.
 </p>
 
 <p>
-    <span class="note">Note</span>: If a 'development' build is made then entering <code class="code-inline">gulp</code> will run the Gulp 'default' task. If a 'production' build is made then
+    If a 'development' build is made then entering <code class="code-inline">gulp</code> will run the Gulp 'default' task. If a 'production' build is required then
     running <code class="code-inline">npm start</code> node will search for a <code class="code-inline">scripts</code> object and then run the command in the associated value
     of a key named <code class="code-inline">start</code> in <b>package.json</b>:
 </p>
@@ -119,21 +119,16 @@ http.createServer(app).listen(3000);
 <pre><code class="language-javascript">"scripts": {
     "start": "Set NODE_ENV=production&& gulp"
 }
-</code>
-</pre>
+</code></pre>
 
 <p>
-    In a 'development' build the following takes place:
+    <span class="note">Note</span>: As can be seen this sets Express to run in a 'production' environment by setting <code class="code-inline">NODE_ENV=production</code> but note that if running under Linux or Mac OSX
+    then the <code class="code-inline">set</code> command should be substituted with <code class="code-inline">export</code>. Also, resist the temptation to insert a space prior to the Javascript logical <code class="code-inline">&&</code> operator
+    as this will add a space so that the Express environment is set to 'production ' (note space). Subsequent expectation that the string will be 'production' will be foiled without trimming.
 </p>
-
-<ul class="list-standard">
-    <li>linting takes place</li>
-    <li>files and directories are copied to the <b>build</b> directory</li>
-    <li>files are not concatenated nor minified</li>
-    <li>node-mon restarts the application when changes to Javascript files occur</li>
-</ul>
-
-
+<p>
+    The command associated with the <code class="code-inline">start</code> key also runs a Gulp 'default' task. The difference being that there are two Gulp 'default' tasks in the root <b>gulpfile.js</b> conditionally switched dependent on environment:
+</p>
 
 <pre><code class="language-javascript">// gulp default tasks
 if(process.env.NODE_ENV === 'production'){
@@ -151,13 +146,94 @@ gulp.task('publish', ['pub-css', 'pub-pug', 'pub-fonts', 'pub-js'], () => {
     gulpUtil.log(gulpUtil.colors.green('Application published. No watch on assets'));
     nodeInit();
 });
-</code>
-</pre>
+</code></pre>
 
+<h4>Development build details</h4>
 
-    <p>Download the code from the GitHub repository at: <a href="https://github.com/nickbergquist/node-express-sass-workflow">https://github.com/nickbergquist/node-express-sass-workflow</a></p>
+<p>
+    In a 'development' build the following takes place:
+</p>
 
+<ul class="list-standard">
+    <li>linting (SASS) takes place</li>
+    <li>compilation takes place</li>
+    <li>post-compilation process of writing browser vendor-prefixes to CSS</li>
+    <li>source-maps are written</li>
+    <li><a href="https://www.npmjs.com/package/gulp-plumber">gulp-plumber</a> is used to prevent Gulp 'watch' tasks from ending if there is a syntax error, i.e., in SASS compilation, etc.</li>
+    <li>files and directories in <b>assets</b> are processed or copied to the <b>build</b> directory</li>
+    <li>files are not concatenated nor minified</li>
+    <li>a Gulp 'watch' is established so that any changes to files in <b>assets</b> results in an immediate build process of those files following the steps above.</li>
+    <li>node-mon restarts the application when changes to server-side Javascript files occur</li>
+</ul>
 
-    @section ScriptsBody {
-        @{await Html.RenderPartialAsync("_CodeBlockScriptsPartial"); }
-    }
+<p>
+    A notable absence from this build is use of <a href="https://www.npmjs.com/package/gulp-livereload">gulp-livereload</a> in the pipe. This automatically reloads the browser when there are changes to files. However, it requires
+    browser-specific extensions, doesn't always work without saving a file twice and personally I find the delay in waiting for the reload greater than simply switching to the browser and hitting the F5 key... but you may wish to use this!
+</p>
+
+<h4>Production build details</h4>
+
+<p>
+    In a 'production' build the following takes place:
+</p>
+
+<ul class="list-standard">
+    <li>linting is absent - you may wish to change this as there's a presumption that any warnings or errors have been picked up in a previous 'development' build</li>
+    <li>compilation takes place</li>
+    <li>files and directories in <b>assets</b> are processed or copied to the <b>dist</b> directory</li>
+    <li>files are minified or concatenated and minified</li>
+    <li>usees Node's <a href="https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback">child_process</a> module to execute the command, <code class="code-inline">node ./bin/www</code> to start the application</li>
+</ul>
+
+<h2>Pug templating</h2>
+
+<p>
+    Having chosen Pug as the templating system there is a need to differentiate which built front-end resources should be loaded dependent on which Express environment the application is running under.
+    For example, in a 'development' build more files result as there is no concatenation; in a 'production' build there may be a requirement for certain common libraries to be resourced from a Content Delivery Network plus also
+    filenames of built files may differ with <b>*.min</b> suffixes.
+</p>
+
+<p>
+    The project uses two approaches for comparison: firstly a 'HTML build block processor', in this case <a href="https://www.npmjs.com/package/gulp-processjade">gulp-processjade</a> (Jade being the old name for Pug).
+    In <b>assets/views/layout.pug</b>:
+</p>
+
+<pre><code class="language-jade">doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title #{title} :: My website
+    // build:css stylesheets/main.min.css
+    link(rel='stylesheet', href='stylesheets/main.css')
+    // /build
+</code></pre>
+
+<p>
+    And secondly, the path to the front-end Javascript files also in <b>assets/views/layout.pug</b> is managed by use of a pug conditional block.
+</p>
+
+<pre><code class="language-jade">block scripts
+    if settings.env === 'production'
+        script(src='https://code.jquery.com/jquery-3.2.1.min.js')
+        script(src='javascripts/site.min.js')
+    else
+        script(src='javascripts/static/jquery-3.2.1.min.js')
+        //- required by IE9 to process javascript-based media queries - applies 
+        //- patch if window.matchMedia() is unsupported
+        script(src='javascripts/static/matchMedia.js')
+        //- 'enquire.js' for javascript-based media queries.. requires 
+        //- window.matchMedia() support.
+        script(src='javascripts/static/enquire.min.js')
+        script(src='javascripts/site.js')
+</code></pre>
+
+<h2>Download and develop</h2>
+
+<p>
+    This is just a working example with plenty of scope for further development but it will hopefully get you set up with a much further advanced front-end for your Node Express application. If you wish to examine it further then please clone the code from the GitHub repository at: <a href="https://github.com/nickbergquist/node-express-sass-workflow">https://github.com/nickbergquist/node-express-sass-workflow</a>
+</p>
+
+@section ScriptsBody {
+    @{await Html.RenderPartialAsync("_CodeBlockScriptsPartial"); }
+}
