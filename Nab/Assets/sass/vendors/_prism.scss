@@ -6,8 +6,10 @@ pre {
     background-image: none;
     border-left: 5px solid palette-colour($palette-main, 'secondary');
     box-shadow: none;
-    margin-bottom: 2.75rem;
+    margin-bottom: 3rem;
     margin-left: percentage(15/strip-units($max-viewport-width));
-    margin-top: 2.25rem;
+    margin-top: 0;
+    padding-bottom: 1.5rem;
+    padding-top: 1.5rem;
   }
 }

@@ -52,6 +52,9 @@
   }
 }
 
+/// Convert a pixel size into a rem size using the base font size
+/// @param $font-size-px - font size in pixels
+/// @return - font size in rem units without the units
 @function calc-rem($font-size-px) {
   $font-size-rem: strip-units($font-size-px) / basefont-to-pixel($base-font-proportional-size);
   @return $font-size-rem;

@@ -26,10 +26,10 @@ html {
 
 main {
   .page-home & {
-    padding: 2.5rem 0 4rem;
+    padding: 1.5rem 0 4rem;
 
     & .standard {
-      padding: 2.5rem percentage(20/strip-units($max-viewport-width)) 3.5rem; // 10px either side at full width
+      padding: 1.5rem percentage(20/strip-units($max-viewport-width)) 3rem; // 10px either side at full width
     }
 
     & .introduction {
@@ -64,7 +64,7 @@ main {
       background-color: palette-colour-alpha('mono', 'dark', 'medium');
       box-shadow: 0 0 125px palette-colour-alpha('mono', 'lightest', 'light');
       color: palette-colour('mono', 'lightest');
-      padding: 1rem percentage(40/strip-units($max-viewport-width)) 1.5rem; // 20px either side at full width
+      padding: .5rem percentage(40/strip-units($max-viewport-width)) .25rem; // 20px either side at full width
       text-align: center;
     }
 
@@ -79,19 +79,11 @@ main {
     }
   }
 
-  @include mq-small {
-    .page-home & {
-      & .portfolio {
-        min-height: 39rem;
-      }
-    }
-  }
-
   @include mq-medium {
     .page-home & {
       & .portfolio {
         background-attachment: fixed;
-        min-height: 50rem;
+        min-height: 48rem;
       }
     }
   }
@@ -120,7 +112,7 @@ nav {
   }
 
   .page-home & {
-    margin-top: 8rem;
+    margin-top: 5rem;
   }
 }
 
@@ -141,10 +133,10 @@ nav {
     background-color: palette-colour-alpha('mono', 'mid', 'dark');
     box-shadow: 0 0 125px palette-colour-alpha('mono', 'lightest', 'light');
     margin: auto;
-    padding: 2.5rem;
+    padding: 1.5rem;
     position: relative;
-    top: -2rem;
-    width: 32rem;
+    top: -1rem;
+    width: 20rem;
 
     & p {
       margin-bottom: 0;

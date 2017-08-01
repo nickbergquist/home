@@ -8,9 +8,10 @@ $fonts: (
     name: 'OpenSans-Regular',
     family: 'OpenSans-Regular, Arial, Helvetica, sans-serif',
     path: '../type/OpenSans-Regular',
+    size-proportional: 100%,
+    size-root: 16px,
     line-height: 1.5,
-    size-proportional: 62.5%, // (62.5/100)*16 : 10px : 1rem
-    size-root: 1.4rem,
+    typographical-base-unit: 24px // 16 * 1.5 
   ),
   base-heading-sans-serif: (
     name: 'ArchivoBlack-Regular',

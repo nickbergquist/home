@@ -32,6 +32,10 @@ html {
 }
 
 main {
+  @include mq-large {
+    background: url('#{$background-main}');
+  }
+
   @include mq-full {
     margin-left: auto;
     margin-right: auto;
@@ -39,7 +43,7 @@ main {
   }
 
   overflow: hidden;
-  padding: 2.5rem percentage(20/strip-units($max-viewport-width)) 4rem; // 10px either side at full width
+  padding: 1.5rem percentage(20/strip-units($max-viewport-width)) 4rem; // 10px either side at full width
 
   & a {
     border-bottom: 1px solid palette-colour($palette-mono, 'mid');
@@ -89,16 +93,18 @@ h1 {
   background-color: $code-inline-background-colour;
   border: 1px solid $code-inline-border-colour;
   color: $code-inline-color;
-  display: inline;
+  line-height: 1em;
   padding: 0 .25em;
 }
 
 .list-standard {
   list-style-position: inside;
   list-style-type: square;
+  margin-bottom: 3rem;
   margin-left: percentage(15/strip-units($max-viewport-width));
 
   & li {
+    margin-bottom: 0;
     padding-left: 1em;
     text-indent: -1em;
   }

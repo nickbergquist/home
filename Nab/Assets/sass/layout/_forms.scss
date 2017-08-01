@@ -6,15 +6,14 @@
 
   & dd {
     float: none;
-    min-height: 8rem;
+    min-height: 4.5rem;
 
     &:last-child {
-      min-height: 21rem;
+      min-height: 17rem;
     }
 
     & span {
       display: block;
-      padding-top: .15rem;
     }
 
     @include mq-small {
@@ -35,7 +34,7 @@
 
   & dl {
     @include mq-small {
-      margin: 0 auto .75rem;
+      margin: 1.85rem auto .75rem;
     }
 
     @include mq-medium {
@@ -53,14 +52,14 @@
     @include mq-small {
       clear: left;
       float: left;
-      margin-top: 1rem;
+      margin-top: .5rem;
       padding-right: percentage(20/strip-units($max-viewport-width));
       width: 25%;
     }
   }
 
   @include mq-medium {
-    margin: 2rem auto;
+    margin: 2.1rem auto;
     width: 85%;
   }
 
@@ -69,10 +68,10 @@
   }
 
   & legend {
-    @include font-size-margin-ratio($legend-font-size, 2);
     color: $legend-colour;
     font-family: #{$legend-font-family};
-    line-height: 1.75;
+    font-size: calc-rem($legend-font-size)#{'rem'};
+    line-height: 1.25;
   }
 
   & [type='submit'] {
@@ -85,7 +84,7 @@
   margin-bottom: 0;
   position: absolute;
   right: percentage(20/strip-units($max-viewport-width));
-  top: 1rem;
+  top: .1rem;
   width: auto;
 
   &::before {
