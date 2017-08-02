@@ -185,6 +185,10 @@ gulp.task('publish', ['pub-css', 'pub-pug', 'pub-fonts', 'pub-js'], () => {
     <li>uses Node's <a href="https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback">child_process</a> module to execute the command, <code class="code-inline">node ./bin/www</code> to start the application</li>
 </ul>
 
+<p>
+    <span class="note">Note</span>: Although the application can be started in the course of a 'production' build as outlined above, a real instance would make use of a process manager such as <a href="http://strong-pm.io/">StrongLoop</a> which will not only restart the application if and when it crashes but also manage other deployment issues and metrics.
+</p>
+
 <h2>Pug templating</h2>
 
 <p>
