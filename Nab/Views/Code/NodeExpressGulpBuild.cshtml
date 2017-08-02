@@ -88,7 +88,7 @@ http.createServer(app).listen(3000);
     <li>differentiate on the build files required for 'development' or 'production' environments</li>
     <li>apply linting or uniform coding standards to particular filetypes</li>
     <li>compile certain files and perform post-compilation tasks</li>
-    <li>set up gulp watch tasks to automatically recompile and/or build specific files when they are edited</li>
+    <li>set up Gulp 'watch' tasks to automatically recompile and/or build specific files when they are edited</li>
     <li>restart the application when server-side Javascript files change using <a href="https://www.npmjs.com/package/gulp-nodemon">node-mon</a></li>
     <li>concatenate client-side Javascript files for fewer HTTP requests</li>
     <li>minify files removing all unneccessary code from build files without affecting functionality</li>
@@ -124,7 +124,7 @@ http.createServer(app).listen(3000);
 <p>
     <span class="note">Note</span>: As can be seen this sets Express to run in a 'production' environment by setting <code class="code-inline">NODE_ENV=production</code> but note that if running under Linux or Mac OSX
     then the <code class="code-inline">set</code> command should be substituted with <code class="code-inline">export</code>. Also, resist the temptation to insert a space prior to the Javascript logical <code class="code-inline">&&</code> operator
-    as this will add a space so that the Express environment is set to 'production ' (note space). Subsequent expectation that the string will be 'production' will be foiled without trimming.
+    as this will cause the Express environment to be set to 'production ' (note space). Subsequent expectation that the string will be 'production' will be foiled without trimming.
 </p>
 <p>
     The command associated with the <code class="code-inline">start</code> key also runs a Gulp 'default' task. The difference being that there are two Gulp 'default' tasks in the root <b>gulpfile.js</b> conditionally switched dependent on environment:
@@ -163,7 +163,7 @@ gulp.task('publish', ['pub-css', 'pub-pug', 'pub-fonts', 'pub-js'], () => {
     <li>files and directories in <b>assets</b> are processed or copied to the <b>build</b> directory</li>
     <li>files are not concatenated nor minified</li>
     <li>a Gulp 'watch' is established so that any changes to files in <b>assets</b> results in an immediate build process of those files following the steps above.</li>
-    <li>node-mon restarts the application when changes to server-side Javascript files occur</li>
+    <li><a href="https://www.npmjs.com/package/gulp-nodemon">node-mon</a> restarts the application when changes to server-side Javascript files occur</li>
 </ul>
 
 <p>
@@ -182,7 +182,7 @@ gulp.task('publish', ['pub-css', 'pub-pug', 'pub-fonts', 'pub-js'], () => {
     <li>compilation takes place</li>
     <li>files and directories in <b>assets</b> are processed or copied to the <b>dist</b> directory</li>
     <li>files are minified or concatenated and minified</li>
-    <li>usees Node's <a href="https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback">child_process</a> module to execute the command, <code class="code-inline">node ./bin/www</code> to start the application</li>
+    <li>uses Node's <a href="https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback">child_process</a> module to execute the command, <code class="code-inline">node ./bin/www</code> to start the application</li>
 </ul>
 
 <h2>Pug templating</h2>
