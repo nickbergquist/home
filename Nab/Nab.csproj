@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Assets\js\site.js" />
+    <Content Include="Assets\js\main\site.js" />
     <Content Include="Assets\js\static\enquire.min.js" />
     <Content Include="Assets\js\static\matchMedia.js" />
   </ItemGroup>

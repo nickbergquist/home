@@ -23,5 +23,6 @@
 
         // code/
         public const string NodeExpressGulpBuild = nameof(NodeExpressGulpBuild);
+        public const string AngularJSThing = nameof(AngularJSThing);
     }
 }

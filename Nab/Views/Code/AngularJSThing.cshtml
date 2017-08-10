@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Test";
+    ViewData["Page class"] = "page-code";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p>
+   <a href="https://docs.microsoft.com/en-us/aspnet/core/client-side/angular">https://docs.microsoft.com/en-us/aspnet/core/client-side/angular</a>
+</p>
+
+<section>
+    <h2>Test H2</h2>
+
+
+    <div ng-app="myApplication" ng-controller="DemoController">
+        Some content ...
+        <div my-directive="testing">
+            Some more content ...
+        </div>
+    </div>
+
+</section>
+
+
+
+
+
+@section ScriptsBody {
+    @{await Html.RenderPartialAsync("_CodeBlockAngularJSScriptsPartial"); }
+}

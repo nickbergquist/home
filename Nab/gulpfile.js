@@ -1,5 +1,8 @@
 ﻿'use strict';
 
+/**
+ * DEPENDENCIES
+ */
 const gulp = require('gulp');
 const util = require('gulp-util');
 const pathExists = require('path-exists');
@@ -14,118 +17,225 @@ const config = loadJsonFile.sync('gulpconfig.json');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const del = require('del');
+const eslint = require('gulp-eslint');
+const browserify = require('browserify');
+const babelify = require('babelify');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
 
-const scssInput = config.paths.stylesheets.scss;
+
+/**
+ * PATHS
+ */
+const scssSrc = config.paths.stylesheets.scss;
 const scssIgnore = config.paths.stylesheets.ignore;
 const scssThemes = config.paths.stylesheets.themes;
-const cssVendor = config.paths.stylesheets.vendorCss;
-const cssOutput = config.paths.stylesheets.css;
-const scriptInput = config.paths.javascript.files;
-const scriptConditional = config.paths.javascript.conditional;
-const scriptFolder = config.paths.javascript.folder;
+const cssConditionalVendor = config.paths.stylesheets.conditionalVendor;
+const cssDest = config.paths.stylesheets.css;
 
+const scriptMain = config.paths.javascript.srcMain;
+const mainSite = config.paths.javascript.mainSite;
+const scriptStatic = config.paths.javascript.srcStatic;
+const scriptConditional = config.paths.javascript.srcConditional;
+const scriptConditionalIgnore = config.paths.javascript.srcConditionalIgnore;
+const scriptAngular = config.paths.javascript.srcAngular;
+const mainAngularApp = config.paths.javascript.mainAngular;
+const scriptDest = config.paths.javascript.dest;
+const scriptGenSiteLintConfig = config.paths.javascript.generalSiteLintConfig;
+const scriptAngAppLintConfig = config.paths.javascript.angularjsLintConfig;
+
+/**
+ * SASS/CSS
+ */
 const sassOptions = {
     errLogToConsole: true
 };
 
+// development: build a full CSS deployment 
+gulp.task('dev-css', ['tear-down-css', 'dev-build-sass', 'view-specific-css']);
+
 // development: compile unminified SASS with linting and sourcemaps 
-gulp.task('dev-css', ['tear-down-css', 'vendor-css'], () => {
-    return gulp
-        .src([scssInput, scssIgnore])
-        .pipe(sassLint())
-        .pipe(sassLint.format())
-        .pipe(sassLint.failOnError())
-        .pipe(sourcemaps.init())
-        .pipe(sass(sassOptions).on('error', sass.logError))
-        .pipe(autoprefixer())
-        .pipe(sourcemaps.write().on('end', () => util.log('Sourcemap created')))
-        .pipe(gulp.dest(cssOutput).on('end', () => util.log('CSS (compiled SASS) written to ' + cssOutput)));
+gulp.task('dev-build-sass', [], () => {
+	return gulp
+		.src([scssSrc, scssIgnore])
+		.pipe(sassLint())
+		.pipe(sassLint.format())
+		.pipe(sassLint.failOnError())
+		.pipe(sourcemaps.init())
+		.pipe(sass(sassOptions).on('error', sass.logError))
+		.pipe(autoprefixer())
+		.pipe(sourcemaps.write().on('end', () => util.log('Sourcemap created')))
+		.pipe(gulp.dest(cssDest).on('end', () => util.log('CSS (compiled SASS) written to ' + cssDest)));
 });
 
 // production: compile SASS with minification
-gulp.task('pub-css', ['tear-down-css', 'vendor-css'], () => {
+gulp.task('pub-css', ['tear-down-css', 'view-specific-css'], () => {
     return gulp
-        .src([scssInput, scssIgnore])
+		.src([scssSrc, scssIgnore])
         .pipe(sass(sassOptions).on('error', sass.logError))
         .pipe(autoprefixer())
 		.pipe(cleanCss().on('end', () => util.log('CSS minified')))
 		.pipe(rename('main.min.css'))
-        .pipe(gulp.dest(cssOutput).on('end', () => util.log('CSS (compiled SASS) minified and written to ' + cssOutput)));
+		.pipe(gulp.dest(cssDest).on('end', () => util.log('CSS (compiled SASS) minified and written to ' + cssDest)));
 });
 
-// vendor CSS, not required on all pages but copy to wwwroot/css without appending to the main CSS file
-gulp.task('vendor-css', () => {
+// view-specific CSS, not required on all pages but process to wwwroot/css without appending to the main CSS file
+gulp.task('view-specific-css', () => {
 	return gulp
-		.src(cssVendor)
+		.src(cssConditionalVendor)
+		.pipe(rename({ suffix: '.min' }))
 		.pipe(cleanCss().on('end', () => util.log('Vendor CSS minified')))
-		.pipe(gulp.dest(cssOutput).on('end', () => util.log('Vendor CSS written to ' + cssOutput)));
+		.pipe(gulp.dest(cssDest).on('end', () => util.log('Vendor CSS written to ' + cssDest)));
 });
 
-// development: copy static JS and the main JS file over to wwwroot/js as is
-gulp.task('dev-scripts', ['tear-down-scripts'], () => {
-	return gulp.src(scriptInput)
-		.pipe(gulp.dest(scriptFolder).on('end', () => util.log('Unaltered JS written to ' + scriptFolder)));
-});
-
-// production: concatenate JS and minify
-gulp.task('pub-scripts', ['tear-down-scripts', 'vendor-js'], () => {
-	return gulp
-		.src(['./Assets/js/static/matchMedia.js', './Assets/js/static/enquire.min.js', './Assets/js/site.js'])
-		.pipe(concat('site.min.js'))
-		.pipe(uglify())
-		.pipe(gulp.dest(scriptFolder).on('end', () => util.log('Minified JS written to ' + scriptFolder)));
-});
-
-// vendor JS, not required on all pages but copy to wwwroot/js without appending to the main JS file
-gulp.task('vendor-js', () => {
-	return gulp
-		.src(scriptConditional)
-		.pipe(gulp.dest(scriptFolder).on('end', () => util.log('Conditional JS written to ' + scriptFolder)));
-});
-
-gulp.task('tear-down-css', () => {
-	return del.sync(cssOutput + '*');
-});
-
-gulp.task('tear-down-scripts', () => {
-	return del.sync(scriptFolder + '*');
-});
-
-// usage: gulp theme --name name-of-theme
+// SASS theme usage: gulp theme --name name-of-theme
 gulp.task('theme', () => {
 	let themePath = scssThemes + util.env.name + '.scss';
 	let filePresent = pathExists.sync(themePath);
 
-    if (filePresent) {
-        util.log('File at ' + themePath + ' exists, starting pipe...');
-        return gulp
-            .src(themePath)
-            .pipe(sass(sassOptions).on('error', sass.logError))
-            .pipe(autoprefixer())
-            //.pipe(cleanCss().on('end', () => util.log('CSS minified')))
+	if (filePresent) {
+		util.log('File at ' + themePath + ' exists, starting pipe...');
+		return gulp
+			.src(themePath)
+			.pipe(sass(sassOptions).on('error', sass.logError))
+			.pipe(autoprefixer())
+			//.pipe(cleanCss().on('end', () => util.log('CSS minified')))
 			.pipe(rename('main.css')) // or rename as 'main.min.css' if publishing with minification
-            .pipe(gulp.dest(cssOutput).on('end', () => util.log('CSS written to ' + cssOutput)));
-    } else {
-        util.log('File at ' + themePath + ' missing, check the SASS theme name matches the task name parameter.');
-        util.log('Usage: gulp theme --name name-of-theme');
-        util.log('Exiting process');
-        process.exit();
-    }
+			.pipe(gulp.dest(cssDest).on('end', () => util.log('CSS written to ' + cssDest)));
+	} else {
+		util.log('File at ' + themePath + ' missing, check the SASS theme name matches the task name parameter.');
+		util.log('Usage: gulp theme --name name-of-theme');
+		util.log('Exiting process');
+		process.exit();
+	}
 });
 
+// remove all compiled CSS
+gulp.task('tear-down-css', () => {
+	return del.sync(cssDest + '*');
+});
+
+
+/**
+ * JAVASCRIPT
+ */
+// development: copy, build and lint
+gulp.task('dev-scripts', ['tear-down-scripts', 'dev-build-site', 'dev-build-app', 'view-specific-scripts']);
+
+// development: main site script(s) with linting
+gulp.task('dev-build-site', ['bundle-static-scripts'], () => {
+	return gulp
+		.src([scriptMain], { dot: false })
+		.pipe(eslint({ configFile: scriptGenSiteLintConfig }))
+		.pipe(eslint.format())
+		//.pipe(eslint.failAfterError())
+		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Unaltered main site JS written to ' + scriptDest)));
+});
+
+// development: needs linting, transpiling, bundling and sourcemap
+gulp.task('dev-build-app', ['lint-app'], () => {
+	let bundler = browserify({
+		entries: mainAngularApp,
+		debug: true,
+		transform: [babelify.configure({
+			presets: ['es2015'],
+			plugins: ['angularjs-annotate']
+		})]
+	});
+
+	// invoke babel transpile of the browserify input using the babelify browserify transform
+	bundler.transform(babelify);
+
+	return bundler
+		.bundle()
+		.pipe(source('app.js'))
+		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Angular JS written to ' + scriptDest)));
+});
+
+// production: main task
+gulp.task('pub-scripts', ['tear-down-scripts', 'pub-build-site', 'pub-build-app', 'view-specific-scripts']);
+
+// production: main site script(s) with minification
+gulp.task('pub-build-site', ['bundle-main-site-static-scripts']);
+
+// production: app - transpiling, bundling, no sourcemap
+gulp.task('pub-build-app', () => {
+	let bundler = browserify({
+		entries: mainAngularApp,
+		debug: false,
+		transform: [babelify.configure({
+			presets: ['es2015'],
+			plugins: ['angularjs-annotate']
+		})]
+	});
+
+	bundler.transform(babelify);
+
+	return bundler
+		.bundle()
+		.pipe(source('app.min.js')) // this is a streaming vinyl file object
+		.pipe(buffer()) // convert from streaming to buffered vinyl file object
+		.pipe(uglify()) // uglify() requires a buffered vinyl file object
+		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Minified Angular JS written to ' + scriptDest)));
+});
+
+// production: concatenate and minify static scripts and main site script
+gulp.task('bundle-main-site-static-scripts', () => {
+	return gulp
+		.src([scriptStatic + 'matchMedia.js', scriptStatic + 'enquire.min.js', mainSite])
+		.pipe(concat('site.min.js'))
+		.pipe(uglify())
+		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Minified main/static site JS written to ' + scriptDest)));
+});
+
+gulp.task('lint-app', () => {
+	return gulp
+		.src([scriptAngular], { dot: false })
+		.pipe(eslint({ configFile: scriptAngAppLintConfig }))
+		.pipe(eslint.format())
+		//.pipe(eslint.failAfterError())
+});
+
+// concat and minify static main site scripts
+gulp.task('bundle-static-scripts', () => {
+	return gulp
+		.src([scriptStatic + 'matchMedia.js', scriptStatic + 'enquire.min.js'])
+		.pipe(concat('static.min.js'))
+		.pipe(uglify())
+		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Minified static JS written to ' + scriptDest)));
+});
+
+// view-specific JS, not required in all views - minify but no concatenation to any other JS file
+gulp.task('view-specific-scripts', () => {
+	return gulp
+		.src([scriptConditional, scriptConditionalIgnore])
+		.pipe(rename({dirname: '', suffix: '.min'})) // remove source directory(s)
+		.pipe(uglify())
+		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Conditional JS written to ' + scriptDest)));
+});
+
+gulp.task('tear-down-scripts', () => {
+	return del.sync(scriptDest + '*');
+});
+
+
+/**
+ * WATCH TASKS
+ */
 // watch for changes in SASS or JS files
 gulp.task('watch', () => {
-	gulp.watch([scssInput, scssIgnore], ['dev-build-css']);
-	gulp.watch(scriptInput, ['dev-build-scripts']);
+	gulp.watch([scssSrc, scssIgnore], ['dev-build-sass']);
+	gulp.watch(scriptMain, ['dev-build-site']);
+	gulp.watch(scriptConditional, ['dev-build-app']);
 });
 
-// main tasks
-gulp.task('default', ['dev-build', 'watch']);
-gulp.task('dev-build', ['tear-down-css', 'tear-down-scripts', 'dev-css', 'dev-scripts']);
 
-// used by 'watch' task
-gulp.task('dev-build-css', ['tear-down-css', 'dev-css']);
-gulp.task('dev-build-scripts', ['tear-down-scripts', 'dev-scripts']);
+/**
+ * MAIN TASKS
+ */
+// build development
+gulp.task('default', ['dev-build', 'watch']);
+gulp.task('dev-build', ['dev-css', 'dev-scripts']);
 
 // build published
-gulp.task('pub-build', ['tear-down-css', 'tear-down-scripts', 'pub-css', 'pub-scripts']);
+gulp.task('pub-build', ['pub-css', 'pub-scripts']);
