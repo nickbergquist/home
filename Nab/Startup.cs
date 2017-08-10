@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -35,6 +32,16 @@ namespace Nab
             // Add framework services.
             services.AddMvc();
 
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
+
+            services.AddResponseCompression(options => 
+            {
+                options.MimeTypes = new[]
+                {
+                    "image/svg+xml"
+                };
+            });
+
             if (Configuration.GetSection("Email") != null)
             {
                 services.Configure<EmailSettings>(Configuration.GetSection("Email"));
@@ -63,6 +70,8 @@ namespace Nab
 
             // extension method of UseStatusCodePages() middleware returns error status code and executes handler for the redirect URL
             app.UseStatusCodePagesWithReExecute("/StatusCode/{0}");
+
+            app.UseResponseCompression();
 
             app.UseStaticFiles();
 
