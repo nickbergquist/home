@@ -4,7 +4,7 @@
 }
 
 @section CssHead {
-    @{await Html.RenderPartialAsync("_CodeBlockStylesheetsPartial"); }
+    @{await Html.RenderPartialAsync("_CodeBlockPrismStylesPartial"); }
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -233,15 +233,15 @@ html(lang='en')
 </code></pre>
 
 <p>
-    And a third, even better option would be to use a dedicated Express asset manager tool such as <a href="https://www.npmjs.com/package/express-asset-manager">express-asset-manager</a> via npm.
+    And a third, even better option to differentially load front-end resources would be to use a dedicated Express asset manager tool such as <a href="https://www.npmjs.com/package/express-asset-manager">express-asset-manager</a> via npm.
 </p>
 
-<h2>Download and develop</h2>
+<h2>Have a go</h2>
 
 <p>
-    This is just a working example with plenty of scope for further development but it will hopefully get you set up with a much further advanced front-end for your Node Express application. If you wish to examine it further then please clone the code from the GitHub repository at: <a href="https://github.com/nickbergquist/node-express-sass-workflow">https://github.com/nickbergquist/node-express-sass-workflow</a>
+    This is just a working example with plenty of scope for further development but it will hopefully get you set up with a much further advanced front-end for your Node Express application dependent on what is to be achieved. There are interesting alternative approaches such as <a href="https://www.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/">using npm as a build tool</a> and using <a href="https://webpack.js.org/">Webpack</a> to bundle and process front-end resources. If you wish to examine the repo further then please clone from the GitHub repository at: <a href="https://github.com/nickbergquist/node-express-sass-workflow">https://github.com/nickbergquist/node-express-sass-workflow</a>
 </p>
 
 @section ScriptsBody {
-    @{await Html.RenderPartialAsync("_CodeBlockScriptsPartial"); }
+    @{await Html.RenderPartialAsync("_CodeBlockPrismScriptsPartial"); }
 }
