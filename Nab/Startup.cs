@@ -80,7 +80,7 @@ namespace Nab
                 OnPrepareResponse = content =>
                 {
                     // cache
-                    const int timeInSeconds = 60 * 60 * 24;
+                    const int timeInSeconds = 60 * 60 * 24 * 30;
                     var headers = content.Context.Response.GetTypedHeaders();
                     headers.CacheControl = new CacheControlHeaderValue()
                     {
