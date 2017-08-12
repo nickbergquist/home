@@ -34,7 +34,7 @@ namespace Nab
 
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
 
-            services.AddResponseCompression(options => 
+            services.AddResponseCompression(options =>
             {
                 options.MimeTypes = new[]
                 {
@@ -58,6 +58,8 @@ namespace Nab
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseResponseCompression(); // won't work on an AWS S3 host without using Cloudflare CDN as request header "Accept-Encoding: gzip" is ignored
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -68,10 +70,29 @@ namespace Nab
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = content =>
+                {
+                    // pre-compressed gzip files created in gulpfile.js without *.gz extension
+                    if (content.File.Name.EndsWith(".min.css"))
+                    {
+                        content.Context.Response.Headers["Content-Type"] = "text/css";
+                        content.Context.Response.Headers["Content-Encoding"] = "gzip";
+                    }
+
+                    if (content.File.Name.EndsWith(".min.js"))
+                    {
+                        content.Context.Response.Headers["Content-Type"] = "text/javascript";
+                        content.Context.Response.Headers["Content-Encoding"] = "gzip";
+                    }
+                }
+            });
+       
+
             // extension method of UseStatusCodePages() middleware returns error status code and executes handler for the redirect URL
             app.UseStatusCodePagesWithReExecute("/StatusCode/{0}");
-
-            app.UseResponseCompression();
 
             app.UseStaticFiles();
 

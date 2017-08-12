@@ -23,7 +23,8 @@
     "vinyl-buffer": "1.0.0",
     "vinyl-source-stream": "1.1.0",
     "babel-preset-es2015": "^6.0.11",
-    "babel-plugin-angularjs-annotate": "0.8.0"
+    "babel-plugin-angularjs-annotate": "0.8.0",
+    "gulp-gzip": "1.4.0"
   },
   "dependencies": {}
 }
