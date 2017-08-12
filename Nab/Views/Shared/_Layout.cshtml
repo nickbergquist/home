@@ -8,11 +8,11 @@
     @RenderSection("CssHead", required: false)
 
     <environment names="Development">
-        <link rel="stylesheet" href="~/css/main.css" />
+        <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
     </environment>
 
     <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/css/main.min.css" />
+        <link rel="stylesheet" href="~/css/main.min.css" asp-append-version="true" />
     </environment>
 
     @Html.Partial("_Favicons")
@@ -62,7 +62,7 @@
         <script src="~/js/static.min.js"></script>
 
         @* main site script *@
-        <script src="~/js/site.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
 
     <environment names="Staging,Production">
@@ -72,7 +72,7 @@
         </script>
         
         @* main site script concatenated with static scripts *@
-        <script src="~/js/site.min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("ScriptsBody", required: false)

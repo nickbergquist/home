@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 using Nab.Services;
 using Nab.Settings;
+using System;
 
 namespace Nab
 {
@@ -32,6 +35,7 @@ namespace Nab
             // Add framework services.
             services.AddMvc();
 
+            // HTTP compression
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
 
             services.AddResponseCompression(options =>
@@ -42,6 +46,7 @@ namespace Nab
                 };
             });
 
+            //
             if (Configuration.GetSection("Email") != null)
             {
                 services.Configure<EmailSettings>(Configuration.GetSection("Email"));
@@ -70,11 +75,18 @@ namespace Nab
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            
             app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = content =>
                 {
+                    // cache
+                    const int timeInSeconds = 60 * 60 * 24;
+                    var headers = content.Context.Response.GetTypedHeaders();
+                    headers.CacheControl = new CacheControlHeaderValue()
+                    {
+                        MaxAge = TimeSpan.FromSeconds(timeInSeconds),
+                    };
+
                     // pre-compressed gzip files created in gulpfile.js without *.gz extension
                     if (content.File.Name.EndsWith(".min.css"))
                     {
@@ -89,7 +101,6 @@ namespace Nab
                     }
                 }
             });
-       
 
             // extension method of UseStatusCodePages() middleware returns error status code and executes handler for the redirect URL
             app.UseStatusCodePagesWithReExecute("/StatusCode/{0}");
