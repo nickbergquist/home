@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\lib\angular\**" />
+    <Content Remove="wwwroot\lib\angular\**" />
+    <EmbeddedResource Remove="wwwroot\lib\angular\**" />
+    <None Remove="wwwroot\lib\angular\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot/favicon-paw-270x270.png" />
   </ItemGroup>
 

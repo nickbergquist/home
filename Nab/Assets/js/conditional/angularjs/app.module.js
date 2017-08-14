@@ -1,26 +1,35 @@
-﻿(function () {
+﻿import angular from 'angular';
+
+(function () {
 	'use strict';
 
-	//var ComponentsModule = require('./components/components.module');
-
-
+	
+	//const ComponentsModule = require('./components/components.module');
 	const myModule = require('./test.module');
 
 	let val = myModule.fwibble();
-
 	//console.log('val: ' + val); // val is "Hello"
 
+	
 
 
 
 
 
 
+
+
+
+
+
+	// declare a module with a dependency on another module
 	angular.module('myApplication', ['mySharedElements']);
 
+	// declare the other module 
 	var mySharedElements = angular.module('mySharedElements', []);
 
-	mySharedElements.directive('myDirective', function () {
+	// 
+	mySharedElements.directive('fwibbleDirective', function () {
 		return {
 			restrict: 'A',
 			transclude: true,
@@ -28,13 +37,9 @@
 		}; 
 	});
 
-	angular.module('myApplication').controller('DemoController', function () {
+	//angular.module('myApplication').controller('DemoController', function () {
 
-	});
-
-
-
-	
+	//});
 
 
 })();
