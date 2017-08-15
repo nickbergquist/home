@@ -66,12 +66,16 @@ main {
 
 h1,
 h2,
-h3,
+h3 {
+  color: $heading-colour;
+  text-shadow: 1px 1px 1px $edge-shadow-colour;
+}
+
 h4,
 h5,
 h6 {
-  color: $heading-colour;
-  text-shadow: 1px 1px 1px $edge-shadow-colour;
+  color: darken(palette-colour($palette-main, 'background'), 10%);
+  text-shadow: 1px 1px 0 $edge-shadow-colour-variant;
 }
 
 h1 {
@@ -98,15 +102,18 @@ h1 {
 }
 
 .list-standard {
-  list-style-position: inside;
+  @include mq-medium {
+    margin-left: percentage(20/strip-units($max-viewport-width));
+  }
+
+  list-style-position: outside;
   list-style-type: square;
   margin-bottom: 3rem;
-  margin-left: percentage(15/strip-units($max-viewport-width));
+  margin-left: percentage(50/strip-units($max-viewport-width));
 
   & li {
     margin-bottom: 0;
-    padding-left: 1em;
-    text-indent: -1em;
+    margin-left: percentage(25/strip-units($max-viewport-width));
   }
 }
 
