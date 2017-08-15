@@ -76,7 +76,7 @@ gulp.task('pub-css', ['tear-down-css', 'view-specific-css'], () => {
         .pipe(sass(sassOptions).on('error', sass.logError))
         .pipe(autoprefixer())
 		.pipe(cleanCss().on('end', () => util.log('CSS minified')))
-		.pipe(rename('main.min.css'))
+		.pipe(rename('main.gz.min.css'))
 		.pipe(gzip({ append: false }))
 		.pipe(gulp.dest(cssDest).on('end', () => util.log('CSS (compiled SASS) minified and written to ' + cssDest)));
 });
@@ -86,7 +86,7 @@ gulp.task('view-specific-css', () => {
 	return gulp
 		.src(cssConditionalVendor)
 		.pipe(cleanCss().on('end', () => util.log('Vendor CSS minified')))
-		.pipe(rename({ suffix: '.min' }))
+		.pipe(rename({ suffix: '.gz.min' }))
 		.pipe(gzip({ append: false }))
 		.pipe(gulp.dest(cssDest).on('end', () => util.log('Vendor CSS written to ' + cssDest)));
 });
@@ -161,7 +161,7 @@ gulp.task('pub-scripts', ['tear-down-scripts', 'pub-build-site', 'pub-build-app'
 // production: main site script(s) with minification
 gulp.task('pub-build-site', ['bundle-main-site-static-scripts']);
 
-// production: app - transpiling, bundling, no sourcemap
+// production: app - transpiling, bundling, no sourcemap, gzipped
 gulp.task('pub-build-app', () => {
 	let bundler = browserify({
 		entries: mainAngularApp,
@@ -176,7 +176,7 @@ gulp.task('pub-build-app', () => {
 
 	return bundler
 		.bundle()
-		.pipe(source('app.min.js')) // this is a streaming vinyl file object
+		.pipe(source('app.gz.min.js')) // this is a streaming vinyl file object
 		.pipe(buffer()) // convert from streaming to buffered vinyl file object
 		.pipe(uglify()) // uglify() requires a buffered vinyl file object
 		.pipe(gzip({ append: false }))
@@ -187,7 +187,7 @@ gulp.task('pub-build-app', () => {
 gulp.task('bundle-main-site-static-scripts', () => {
 	return gulp
 		.src([scriptStatic + 'matchMedia.js', scriptStatic + 'enquire.min.js', mainSite])
-		.pipe(concat('site.min.js'))
+		.pipe(concat('site.gz.min.js'))
 		.pipe(uglify())
 		.pipe(gzip({ append: false }))
 		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Minified main/static site JS written to ' + scriptDest)));
@@ -205,7 +205,7 @@ gulp.task('lint-app', () => {
 gulp.task('bundle-static-scripts', () => {
 	return gulp
 		.src([scriptStatic + 'matchMedia.js', scriptStatic + 'enquire.min.js'])
-		.pipe(concat('static.min.js'))
+		.pipe(concat('static.gz.min.js'))
 		.pipe(uglify())
 		.pipe(gzip({ append: false }))
 		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Minified static JS written to ' + scriptDest)));
@@ -215,7 +215,7 @@ gulp.task('bundle-static-scripts', () => {
 gulp.task('view-specific-scripts', () => {
 	return gulp
 		.src([scriptConditional, scriptConditionalIgnore])
-		.pipe(rename({dirname: '', suffix: '.min'})) // remove source directory(s)
+		.pipe(rename({dirname: '', suffix: '.gz.min'})) // remove source directory(s)
 		.pipe(uglify())
 		.pipe(gzip({ append: false }))
 		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Conditional JS written to ' + scriptDest)));

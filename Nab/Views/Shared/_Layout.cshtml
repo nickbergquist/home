@@ -12,7 +12,7 @@
     </environment>
 
     <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/css/main.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/main.gz.min.css" asp-append-version="true" />
     </environment>
 
     @Html.Partial("_Favicons")
@@ -56,10 +56,10 @@
     </footer>
 
     <environment names="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
         @* contains enquire.js for Javascript media-queries and window.matchMedia() patch for older browsers (IE9 etc.) *@
-        <script src="~/js/static.min.js"></script>
+        <script src="~/js/static.gz.min.js"></script>
 
         @* main site script *@
         <script src="~/js/site.js" asp-append-version="true"></script>
@@ -72,7 +72,7 @@
         </script>
         
         @* main site script concatenated with static scripts *@
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/js/site.gz.min.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("ScriptsBody", required: false)

@@ -6,7 +6,25 @@ module.exports = {
     },
 	"extends": "eslint:recommended",
 	"globals": {
-		"angular": false
+		// Angular
+		"angular": false,
+
+		// Angular mocks
+		"module": false,
+		"inject": false,
+
+		// Jasmine
+		"jasmine": false,
+		"describe": false,
+		"beforeEach": false,
+		"afterEach": false,
+		"it": false,
+		"expect": false,
+
+		// Protractor
+		"browser": false,
+		"element": false,
+		"by": false
 	},
     "parserOptions": {
         "sourceType": "module"

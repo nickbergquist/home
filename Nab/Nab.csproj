@@ -9,13 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\lib\angular\**" />
-    <Content Remove="wwwroot\lib\angular\**" />
-    <EmbeddedResource Remove="wwwroot\lib\angular\**" />
-    <None Remove="wwwroot\lib\angular\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="wwwroot/favicon-paw-270x270.png" />
   </ItemGroup>
 
@@ -23,6 +16,17 @@
     <Content Include="Assets\js\main\site.js" />
     <Content Include="Assets\js\static\enquire.min.js" />
     <Content Include="Assets\js\static\matchMedia.js" />
+    <Content Include="wwwroot\lib\angular\.bower.json" />
+    <Content Include="wwwroot\lib\angular\angular-csp.css" />
+    <Content Include="wwwroot\lib\angular\angular.js" />
+    <Content Include="wwwroot\lib\angular\angular.min.js" />
+    <Content Include="wwwroot\lib\angular\angular.min.js.gzip" />
+    <Content Include="wwwroot\lib\angular\angular.min.js.map" />
+    <Content Include="wwwroot\lib\angular\bower.json" />
+    <Content Include="wwwroot\lib\angular\index.js" />
+    <Content Include="wwwroot\lib\angular\LICENSE.md" />
+    <Content Include="wwwroot\lib\angular\package.json" />
+    <Content Include="wwwroot\lib\angular\README.md" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MailKit" Version="1.16.1" />

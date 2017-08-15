@@ -87,14 +87,15 @@ namespace Nab
                         MaxAge = TimeSpan.FromSeconds(timeInSeconds),
                     };
 
-                    // pre-compressed gzip files created in gulpfile.js without *.gz extension
-                    if (content.File.Name.EndsWith(".min.css"))
+                    // pre-compressed gzip files created in gulpfile.js - set response headers to let the user-agent 
+                    // know how to decode in order to obtain the media-type referenced by the Content-Type header
+                    if (content.File.Name.EndsWith(".gz.min.css"))
                     {
                         content.Context.Response.Headers["Content-Type"] = "text/css";
                         content.Context.Response.Headers["Content-Encoding"] = "gzip";
                     }
 
-                    if (content.File.Name.EndsWith(".min.js"))
+                    if (content.File.Name.EndsWith(".gz.min.js"))
                     {
                         content.Context.Response.Headers["Content-Type"] = "text/javascript";
                         content.Context.Response.Headers["Content-Encoding"] = "gzip";

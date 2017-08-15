@@ -15,7 +15,7 @@
       "srcConditional": "./Assets/js/conditional/**/*.js",
       "srcConditionalIgnore": "!./Assets/js/conditional/angularjs/**/*.js",
       "srcAngular": "./Assets/js/conditional/angularjs/**/*.js",
-      "mainAngular": "./Assets/js/conditional/angularjs/app.module.js",
+      "mainAngular": "./Assets/js/conditional/angularjs/app.js",
       "dest": "./wwwroot/js",
       "generalSiteLintConfig": "./Assets/js/main/.eslintrc.js",
       "angularjsLintConfig": "./Assets/js/conditional/angularjs/.eslintrc.js"
