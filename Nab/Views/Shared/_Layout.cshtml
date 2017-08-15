@@ -19,14 +19,14 @@
 </head>
 <body>
     <a class="skip off-screen" href="#main">Skip to content</a>
-    <header role="banner">
+    <header>
         <div class="content-restrict">
             <div class="logo-site">
                 <a asp-area="" asp-controller="Home" asp-action="Index">Nick Bergquist</a>
                 <p>Front-end developer</p>
             </div>
         </div>
-        <nav id="nav-site" role="navigation">
+        <nav id="nav-site">
             <ul>
                 <li is-active-route asp-controller="Home" class="anchor-home">
                     <a asp-controller="Home" asp-action="Index">Home</a>
@@ -46,10 +46,10 @@
             </ul>
         </nav>
     </header>
-    <main id="main" class="main" role="main">
+    <main id="main" class="main">
         @RenderBody()
     </main>
-    <footer role="contentinfo">
+    <footer>
         <div class="content-restrict">
             <p>&copy; 2016 - @DateTime.Now.Year nab</p>
         </div>
