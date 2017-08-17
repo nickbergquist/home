@@ -27,6 +27,7 @@
     <Content Include="wwwroot\lib\angular\LICENSE.md" />
     <Content Include="wwwroot\lib\angular\package.json" />
     <Content Include="wwwroot\lib\angular\README.md" />
+    <Content Include="wwwroot\robots.txt" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MailKit" Version="1.16.1" />
