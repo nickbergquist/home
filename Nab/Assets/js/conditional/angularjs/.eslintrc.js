@@ -46,5 +46,13 @@ module.exports = {
             "error",
             "always"
         ]
-    }
+	},
+	"overrides": [
+		{
+			"files": ['**/*.spec.js'],
+			"rules": {
+				"no-unused-vars": 0
+			}
+		}
+	]
 };

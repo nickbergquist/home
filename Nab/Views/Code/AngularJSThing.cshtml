@@ -5,31 +5,15 @@
 
 <h1>@ViewData["Title"]</h1>
 <p>
-   <a href="https://docs.microsoft.com/en-us/aspnet/core/client-side/angular">https://docs.microsoft.com/en-us/aspnet/core/client-side/angular</a>
+   Establish modular architecture.
 </p>
 
-@*<section>
-    <h2>Test H2</h2>
 
-    <div ng-app="myApplication">
-        Some content ...
-        <div fwibble-directive="testing">
-            Some more content ...
-        </div>
-    </div>
-</section>*@
-
-
-
-<section data-ng-app="recordBreakersApp">
-    <h2>East coast record breakers</h2>
-    <ul data-ng-controller="RecordBreakersListController" class="list-standard">
-        <li data-ng-repeat="record in records">
-            <h4>{{record.class}} No. {{record.number}}, {{record.name}}</h4>
-            <p>Built {{record.built}}. {{record.snippet}}</p>
-        </li>
-    </ul>
+<section data-ng-app="app">
+    @* angular custom component - kebab-case here, camelCase in the component *@
+    <record-breakers-list></record-breakers-list>
 </section>
+
 
 
 
