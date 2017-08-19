@@ -13,21 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Assets\js\main\site.js" />
-    <Content Include="Assets\js\static\enquire.min.js" />
-    <Content Include="Assets\js\static\matchMedia.js" />
-    <Content Include="wwwroot\lib\angular\.bower.json" />
-    <Content Include="wwwroot\lib\angular\angular-csp.css" />
-    <Content Include="wwwroot\lib\angular\angular.js" />
-    <Content Include="wwwroot\lib\angular\angular.min.js" />
-    <Content Include="wwwroot\lib\angular\angular.min.js.gzip" />
-    <Content Include="wwwroot\lib\angular\angular.min.js.map" />
-    <Content Include="wwwroot\lib\angular\bower.json" />
-    <Content Include="wwwroot\lib\angular\index.js" />
-    <Content Include="wwwroot\lib\angular\LICENSE.md" />
-    <Content Include="wwwroot\lib\angular\package.json" />
-    <Content Include="wwwroot\lib\angular\README.md" />
-    <Content Include="wwwroot\robots.txt" />
+    
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MailKit" Version="1.16.1" />
@@ -42,6 +28,8 @@
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
+  </ItemGroup>
+  <ItemGroup>
   </ItemGroup>
 
 </Project>
