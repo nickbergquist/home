@@ -1,0 +1,8 @@
+﻿<h2>East coast record breakers</h2>
+<ul class="list-standard">
+    <li data-ng-repeat="record in $ctrl.records">
+        <h3>{{ record.class }} No. {{ record.number }}, "{{ record.name }}"</h3>
+        <p>Built {{ record.built }}. {{ record.snippet }}</p>
+    </li>
+</ul>
+<p>Total number of records: {{ $ctrl.records.length }}</p>

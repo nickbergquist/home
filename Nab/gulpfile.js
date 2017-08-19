@@ -12,6 +12,7 @@ const sass = require('gulp-sass');
 const sassLint = require('gulp-sass-lint');
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCss = require('gulp-clean-css');
+const htmlclean = require('gulp-htmlclean');
 const sourcemaps = require('gulp-sourcemaps');
 const config = loadJsonFile.sync('gulpconfig.json');
 const concat = require('gulp-concat');
@@ -40,6 +41,7 @@ const scriptStatic = config.paths.javascript.srcStatic;
 const scriptConditional = config.paths.javascript.srcConditional;
 const scriptConditionalIgnore = config.paths.javascript.srcConditionalIgnore;
 const scriptAngular = config.paths.javascript.srcAngular;
+const templatesAngular = config.paths.javascript.templatesAngular;
 const mainAngularApp = config.paths.javascript.mainAngular;
 const scriptDest = config.paths.javascript.dest;
 const scriptGenSiteLintConfig = config.paths.javascript.generalSiteLintConfig;
@@ -136,7 +138,7 @@ gulp.task('dev-build-site', ['bundle-static-scripts'], () => {
 });
 
 // development: needs linting, transpiling, bundling and sourcemap
-gulp.task('dev-build-app', ['lint-app'], () => {
+gulp.task('dev-build-app', ['lint-app', 'build-app-templates'], () => {
 	let bundler = browserify({
 		entries: mainAngularApp,
 		debug: true,
@@ -162,7 +164,7 @@ gulp.task('pub-scripts', ['tear-down-scripts', 'pub-build-site', 'pub-build-app'
 gulp.task('pub-build-site', ['bundle-main-site-static-scripts']);
 
 // production: app - transpiling, bundling, no sourcemap, gzipped
-gulp.task('pub-build-app', () => {
+gulp.task('pub-build-app', ['build-app-templates'], () => {
 	let bundler = browserify({
 		entries: mainAngularApp,
 		debug: false,
@@ -201,6 +203,15 @@ gulp.task('lint-app', () => {
 		//.pipe(eslint.failAfterError())
 });
 
+// deploy AngularJS app HTML templates
+gulp.task('build-app-templates', () => {
+	return gulp
+		.src(templatesAngular)
+		.pipe(rename({ dirname: '' })) // remove source directory(s)
+		.pipe(htmlclean())
+		.pipe(gulp.dest(scriptDest + '/templates').on('end', () => util.log('Minified AngularJS HTML templates written to ' + scriptDest + '/templates')));
+});
+
 // concat and minify static main site scripts
 gulp.task('bundle-static-scripts', () => {
 	return gulp
@@ -215,7 +226,7 @@ gulp.task('bundle-static-scripts', () => {
 gulp.task('view-specific-scripts', () => {
 	return gulp
 		.src([scriptConditional, scriptConditionalIgnore])
-		.pipe(rename({dirname: '', suffix: '.gz.min'})) // remove source directory(s)
+		.pipe(rename({ dirname: '', suffix: '.gz.min' })) // remove source directory(s)
 		.pipe(uglify())
 		.pipe(gzip({ append: false }))
 		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Conditional JS written to ' + scriptDest)));
