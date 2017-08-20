@@ -240,11 +240,12 @@ gulp.task('tear-down-scripts', () => {
 /**
  * WATCH TASKS
  */
-// watch for changes in SASS or JS files
+// watch for changes in SASS, JS or HTML template files
 gulp.task('watch', () => {
 	gulp.watch([scssSrc, scssIgnore], ['dev-build-sass']);
 	gulp.watch(scriptMain, ['dev-build-site']);
 	gulp.watch(scriptConditional, ['dev-build-app']);
+	gulp.watch(templatesAngular, ['build-app-templates']);
 });
 
 
