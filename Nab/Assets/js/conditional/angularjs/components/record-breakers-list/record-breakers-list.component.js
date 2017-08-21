@@ -1,5 +1,6 @@
 ﻿'use strict';
 
+// export the Component Definition Object (CDO)
 export const RecordBreakersListComponent = {
 	templateUrl: function (PATH_TEMPLATES) {
 		return PATH_TEMPLATES + '/record-breakers-list.html';
@@ -7,8 +8,13 @@ export const RecordBreakersListComponent = {
 	controller: RecordBreakersListController
 };
 
+function RecordBreakersListController(mathExample) {
+	var a = 12;
+	var b = 24;
 
-function RecordBreakersListController() {
+	this.result = mathExample.multiply(a, b);
+
+	this.title = 'East coast record breakers';
 	this.records = [
 		{
 			name: 'Flying Scotsman',
