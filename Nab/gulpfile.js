@@ -180,7 +180,7 @@ gulp.task('pub-build-app', ['build-app-templates'], () => {
 		.bundle()
 		.pipe(source('app.gz.min.js')) // this is a streaming vinyl file object
 		.pipe(buffer()) // convert from streaming to buffered vinyl file object
-		.pipe(uglify()) // uglify() requires a buffered vinyl file object
+		.pipe(uglify({ mangle: false })) // uglify() requires a buffered vinyl file object / mangle property is to minify AngularJS
 		.pipe(gzip({ append: false }))
 		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Minified Angular JS written to ' + scriptDest)));
 });
