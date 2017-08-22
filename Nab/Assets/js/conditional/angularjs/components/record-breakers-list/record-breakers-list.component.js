@@ -2,15 +2,14 @@
 
 // export the Component Definition Object (CDO)
 export const RecordBreakersListComponent = {
-	templateUrl: function (PATH_TEMPLATES) {
-		return PATH_TEMPLATES + '/record-breakers-list.html';
-	},
+	templateUrl: config => config.pathTemplates + 'record-breakers-list.html',
 	controller: RecordBreakersListController
 };
 
+// inject service dependency
 function RecordBreakersListController(mathExample) {
-	var a = 12;
-	var b = 24;
+	let a = 12;
+	let b = 24;
 
 	this.result = mathExample.multiply(a, b);
 

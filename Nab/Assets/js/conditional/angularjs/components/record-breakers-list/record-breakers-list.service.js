@@ -2,7 +2,7 @@
 
 // export the service
 export function RecordBreakersListService () {
-	this.multiply = function (x, y) {
+	this.multiply = (x, y) => {
 		return x * y;
 	};
 }
