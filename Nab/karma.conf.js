@@ -5,8 +5,8 @@ module.exports = function(config) {
     basePath: './Assets/js/conditional/angularjs',
 
 	files: [
-		'../../../../wwwroot/lib/angular/angular.js',
-		'../../../../wwwroot/lib/angular-mocks/angular-mocks.js',
+		{ pattern: '../../../../wwwroot/lib/angular/angular.js', watched: false },
+		{ pattern: '../../../../wwwroot/lib/angular-mocks/angular-mocks.js', watched: false },
 		'../../../../wwwroot/js/app.js',
 		'**/*.spec.js'
     ],
