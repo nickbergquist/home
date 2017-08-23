@@ -6,11 +6,7 @@
 
   & dd {
     float: none;
-    min-height: 4.5rem;
-
-    &:last-child {
-      min-height: 17rem;
-    }
+    margin-bottom: 2.3rem;
 
     & span {
       display: block;
@@ -101,5 +97,18 @@
     content: '*';
     left: 5px;
     position: relative;
+  }
+}
+
+.input-search-text {
+  margin: 0 auto;
+
+  & dd {
+    margin-bottom: .5rem;
+  }
+
+  & dl {
+    margin: 0 auto 2.25rem;
+    padding-top: 1rem;
   }
 }
