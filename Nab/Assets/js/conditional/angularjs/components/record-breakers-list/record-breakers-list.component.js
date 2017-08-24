@@ -7,11 +7,11 @@ export const RecordBreakersListComponent = {
 };
 
 // inject service dependency
-function RecordBreakersListController(mathExample) {
+function RecordBreakersListController(simpleMathService) {
 	let a = 12;
 	let b = 24;
 
-	this.result = mathExample.multiply(a, b);
+	this.result = simpleMathService.multiply(a, b);
 
 	this.title = 'East coast record breakers';
 	this.records = [

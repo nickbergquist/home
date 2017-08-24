@@ -7,6 +7,6 @@ export const AppModule = angular
 		ComponentsModule
 	])
 	.constant('config', {
-		pathTemplates: '../js/templates/'
+		pathTemplates: 'js/templates/'
 	})
 	.name;

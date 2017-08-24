@@ -10,5 +10,5 @@ import { RecordBreakersListComponent } from './record-breakers-list.component';
 export const RecordBreakersListModule = angular
 	.module('components.recordBreakersList', [])
 	.component('recordBreakersList', RecordBreakersListComponent)
-	.service('mathExample', RecordBreakersListService)
+	.service('simpleMathService', RecordBreakersListService)
 	.name;

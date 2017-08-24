@@ -1,6 +1,14 @@
 ﻿<h2>{{$ctrl.title}}</h2>
+
+<form class="form-main input-search-text" action="">
+    <dl>
+        <dt><label for="search">Search</label></dt>
+        <dd><input id="search" type="text" data-ng-model="$ctrl.query" /></dd>
+    </dl>
+</form>
+
 <ul class="list-standard">
-    <li data-ng-repeat="record in $ctrl.records">
+    <li data-ng-repeat="record in $ctrl.records | filter:$ctrl.query">
         <h3>{{ record.class }} No. {{ record.number }}, "{{ record.name }}"</h3>
         <p>Built {{ record.built }}. {{ record.snippet }}</p>
     </li>

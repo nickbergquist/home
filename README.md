@@ -51,3 +51,16 @@ The SASS files within ```/Assets/sass/themes/``` are excluded from the usual com
     The ```name``` parameter (in this case 'name-of-theme') must match the name of the theme file without the *.scss suffix and there is a check to this effect incorporated. This enables multiple theme files to be saved in the ```/Assets/sass/themes/``` directory that may be compiled individually.
 
 3. the gulp ```theme``` task creates a standard file ```main.css``` in the ```/wwwroot/css/``` folder. This is currently unminified but there is a commented pipe instruction that can be uncommented to correct this pending further refactoring... ;-)
+
+
+## Testing AngularJS app
+
+Run unit tests:
+
+```npm run unit-tests```
+
+Run end-to-end tests:
+
+```npm run e2e-tests```
+
+There's also a npm script to update the webdrivers if necessary in package.json
