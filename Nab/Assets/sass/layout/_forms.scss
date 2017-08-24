@@ -1,24 +1,28 @@
 ﻿
 .form-main {
-  margin: 1.25rem percentage(20/strip-units($max-viewport-width)) 1.8em; // 10px either side at full width
+  @include mq-medium {
+    margin: 0 auto 2rem;
+    padding-top: .5rem;
+    width: 85%;
+  }
+
+  @include mq-large {
+    width: 65%;
+  }
+
+  margin: 0 percentage(20/strip-units($max-viewport-width)) 1.8em; // 10px either side at full width
   overflow: hidden;
+  padding-top: .5rem;
   position: relative;
 
   & dd {
-    float: none;
-    margin-bottom: 2.3rem;
-
-    & span {
-      display: block;
-    }
-
     @include mq-small {
       float: left;
       width: 75%;
     }
 
     @include mq-medium {
-      & [name$='SenderName'] { //
+      & [name$='SenderName'] {
         width: 70%;
       }
 
@@ -26,11 +30,23 @@
         width: 85%;
       }
     }
+
+    float: none;
+    min-height: 4.5rem;
+
+    & span {
+      display: block;
+    }
+
+    &.form-row-deep {
+      min-height: 16.5rem;
+    }
   }
 
   & dl {
     @include mq-small {
-      margin: 1.85rem auto .75rem;
+      margin: 0 auto .7rem;
+      padding-top: 1.6rem;
     }
 
     @include mq-medium {
@@ -39,12 +55,6 @@
   }
 
   & dt {
-    float: none;
-
-    &::after {
-      content: '';
-    }
-
     @include mq-small {
       clear: left;
       float: left;
@@ -52,22 +62,18 @@
       padding-right: percentage(20/strip-units($max-viewport-width));
       width: 25%;
     }
-  }
 
-  @include mq-medium {
-    margin: 2.1rem auto;
-    width: 85%;
-  }
+    float: none;
 
-  @include mq-large {
-    width: 65%;
+    &::after {
+      content: '';
+    }
   }
 
   & legend {
     color: $legend-colour;
     font-family: #{$legend-font-family};
     font-size: calc-rem($legend-font-size)#{'rem'};
-    line-height: 1.25;
   }
 
   & [type='submit'] {
@@ -76,11 +82,11 @@
 }
 
 .advice-form-fields {
-  font-size: inherit;
+  font-size: calc-rem($form-advice-font-size)#{'rem'};
   margin-bottom: 0;
   position: absolute;
   right: percentage(20/strip-units($max-viewport-width));
-  top: .1rem;
+  top: .25rem;
   width: auto;
 
   &::before {
@@ -97,18 +103,5 @@
     content: '*';
     left: 5px;
     position: relative;
-  }
-}
-
-.input-search-text {
-  margin: 0 auto;
-
-  & dd {
-    margin-bottom: .5rem;
-  }
-
-  & dl {
-    margin: 0 auto 2.25rem;
-    padding-top: 1rem;
   }
 }

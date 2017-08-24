@@ -63,6 +63,10 @@ $h4-size: 20px !default;
 $list-body-size: 14px !default;
 $nav-root-size: 18px !default;
 $form-legend: 80% Arial !default;
+$legend-colour: palette-colour($palette-main, 'secondary') !default;
+$legend-font-family: $base-heading-font-family !default;
+$legend-font-size: 21px !default;
+$form-advice-font-size: 12px !default;
 
 
 ///////////////
@@ -97,10 +101,6 @@ $input-text-standard-border-focus-colour: palette-colour($palette-main, 'primary
 $input-text-standard-vert-padding: 8px !default;
 $input-text-standard-horiz-padding: 8px !default;
 $input-text-standard-shadow-colour: palette-colour($palette-mono, 'lighter') !default;
-
-$legend-colour: palette-colour($palette-main, 'secondary') !default;
-$legend-font-family: $base-heading-font-family !default;
-$legend-font-size: 21px !default;
 
 
 ///////////////////
