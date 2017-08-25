@@ -1,7 +1,7 @@
 ﻿
 .form-main {
   @include mq-medium {
-    margin: 0 auto 2rem;
+    margin: 0 auto 1.1rem;
     padding-top: .5rem;
     width: 85%;
   }
@@ -70,10 +70,16 @@
     }
   }
 
+  & label {
+    font-variant: small-caps;
+  }
+
   & legend {
     color: $legend-colour;
-    font-family: #{$legend-font-family};
     font-size: calc-rem($legend-font-size)#{'rem'};
+    font-style: italic;
+    font-variant: small-caps;
+    font-weight: bold;
   }
 
   & [type='submit'] {
@@ -83,10 +89,11 @@
 
 .advice-form-fields {
   font-size: calc-rem($form-advice-font-size)#{'rem'};
+  font-variant: small-caps;
   margin-bottom: 0;
   position: absolute;
   right: percentage(20/strip-units($max-viewport-width));
-  top: .25rem;
+  top: .2rem;
   width: auto;
 
   &::before {
