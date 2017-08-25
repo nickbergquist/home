@@ -1,17 +1,31 @@
 ﻿<h2>{{$ctrl.title}}</h2>
 
-<form class="form-main input-search-text" action="">
-    <dl>
-        <dt><label for="search">Search</label></dt>
-        <dd><input id="search" type="text" data-ng-model="$ctrl.query" /></dd>
-    </dl>
+<p>Lorem ipsum and all that jazz</p>
+
+<form class="form-main" action="">
+    <fieldset>
+        <legend>Filter results</legend>
+        <dl>
+            <dt><label for="search">Search</label></dt>
+            <dd><input id="search" type="text" data-ng-model="$ctrl.query" /></dd>
+            <dt><label for="sortby">Sort by</label></dt>
+            <dd>
+                <select id="sortby" ng-model="$ctrl.orderProp">
+                    <option value="name">Name alphabetical</option>
+                    <option value="recordDate">Most recent</option>
+                </select>
+            </dd>
+        </dl>
+    </fieldset>
 </form>
 
 <ul class="list-standard">
-    <li data-ng-repeat="record in $ctrl.records | filter:$ctrl.query">
+    <li data-ng-repeat="record in $ctrl.records | filter:$ctrl.query | orderBy:$ctrl.orderProp">
         <h3>{{ record.class }} No. {{ record.number }}, "{{ record.name }}"</h3>
         <p>Built {{ record.built }}. {{ record.snippet }}</p>
     </li>
 </ul>
+
 <p>Total number of records: {{ $ctrl.records.length }}</p>
-<p>Service output: {{ $ctrl.result }}</p>
+
+<!--<p>Service output: {{ $ctrl.result }}</p>-->

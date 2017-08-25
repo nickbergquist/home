@@ -1,17 +1,7 @@
 # End-2-End Testing (Protractor)
 
-To run the end-2-end (e2e) tests against the application, we use [Protractor][protractor].
+To run the end-2-end (e2e) tests against the application [Protractor][protractor] is used.
 
-## Starting the Web Server
-
-First, we need the application to be running via the web-server.
-From the project's root directory run:
-
-```
-npm start
-```
-
-The application should now be available at http://localhost:8000/index.html.
 
 ## Testing with Protractor
 
