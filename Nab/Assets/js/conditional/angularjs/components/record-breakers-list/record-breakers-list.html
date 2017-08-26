@@ -12,7 +12,8 @@
             <dd>
                 <select id="sortby" ng-model="$ctrl.orderProp">
                     <option value="name">Name alphabetical</option>
-                    <option value="recordDate">Most recent</option>
+                    <option value="recordDate">Record date descending</option>
+                    <option value="-recordDate">Record date ascending</option>
                 </select>
             </dd>
         </dl>
@@ -21,7 +22,7 @@
 
 <ul class="list-standard">
     <li data-ng-repeat="record in $ctrl.records | filter:$ctrl.query | orderBy:$ctrl.orderProp">
-        <h3>{{ record.class }} No. {{ record.number }}, "{{ record.name }}"</h3>
+        <h3>{{ record.class }} No. {{ record.number }}, "{{ record.name }}" - {{ record.recordDate }}</h3>
         <p>Built {{ record.built }}. {{ record.snippet }}</p>
     </li>
 </ul>
