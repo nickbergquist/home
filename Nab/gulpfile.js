@@ -137,14 +137,13 @@ gulp.task('dev-build-site', ['bundle-static-scripts'], () => {
 		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Unaltered main site JS written to ' + scriptDest)));
 });
 
-// development: needs linting, transpiling, bundling and sourcemap
+// development: app - linting, transpiling, bundling and sourcemap
 gulp.task('dev-build-app', ['lint-app', 'build-app-templates'], () => {
 	let bundler = browserify({
 		entries: mainAngularApp,
 		debug: true,
 		transform: [babelify.configure({
-			presets: ['es2015'],
-			plugins: ['angularjs-annotate']
+			presets: ['es2015']
 		})]
 	});
 
@@ -163,7 +162,7 @@ gulp.task('pub-scripts', ['tear-down-scripts', 'pub-build-site', 'pub-build-app'
 // production: main site script(s) with minification
 gulp.task('pub-build-site', ['bundle-main-site-static-scripts']);
 
-// production: app - transpiling, bundling, no sourcemap, gzipped
+// production: app - transpiling, bundling, minification, no sourcemap, gzipped
 gulp.task('pub-build-app', ['build-app-templates'], () => {
 	let bundler = browserify({
 		entries: mainAngularApp,

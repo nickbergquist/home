@@ -6,8 +6,9 @@ export const RecordBreakersListComponent = {
 	controller: RecordBreakersListController
 };
 
-// inject service dependency
-function RecordBreakersListController(simpleMathService) {
+//RecordBreakersListController.$inject = ['$http', 'simpleMathService'];
+
+function RecordBreakersListController($http, simpleMathService) {
 	let a = 12;
 	let b = 24;
 

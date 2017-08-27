@@ -2,7 +2,7 @@
 module.exports = function(config) {
   config.set({
 
-    basePath: './Assets/js/conditional/angularjs',
+    basePath: '../Assets/js/conditional/angularjsapp',
 
 	files: [
 		{ pattern: '../../../../wwwroot/lib/angular/angular.js', watched: false },
