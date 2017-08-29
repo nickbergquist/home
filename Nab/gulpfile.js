@@ -17,6 +17,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const config = loadJsonFile.sync('gulpconfig.json');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
+const jsonminify = require('gulp-jsonminify');
 const del = require('del');
 const eslint = require('gulp-eslint');
 const browserify = require('browserify');
@@ -42,6 +43,7 @@ const scriptConditional = config.paths.javascript.srcConditional;
 const scriptConditionalIgnore = config.paths.javascript.srcConditionalIgnore;
 const scriptAngular = config.paths.javascript.srcAngular;
 const templatesAngular = config.paths.javascript.templatesAngular;
+const diskDataAngular = config.paths.javascript.diskDataAngular;
 const mainAngularApp = config.paths.javascript.mainAngular;
 const scriptDest = config.paths.javascript.dest;
 const scriptGenSiteLintConfig = config.paths.javascript.generalSiteLintConfig;
@@ -138,7 +140,7 @@ gulp.task('dev-build-site', ['bundle-static-scripts'], () => {
 });
 
 // development: app - linting, transpiling, bundling and sourcemap
-gulp.task('dev-build-app', ['lint-app', 'build-app-templates'], () => {
+gulp.task('dev-build-app', ['lint-app', 'build-app-templates', 'build-app-data'], () => {
 	let bundler = browserify({
 		entries: mainAngularApp,
 		debug: true,
@@ -163,7 +165,7 @@ gulp.task('pub-scripts', ['tear-down-scripts', 'pub-build-site', 'pub-build-app'
 gulp.task('pub-build-site', ['bundle-main-site-static-scripts']);
 
 // production: app - transpiling, bundling, minification, no sourcemap, gzipped
-gulp.task('pub-build-app', ['build-app-templates'], () => {
+gulp.task('pub-build-app', ['build-app-templates', 'build-app-data'], () => {
 	let bundler = browserify({
 		entries: mainAngularApp,
 		debug: false,
@@ -211,6 +213,15 @@ gulp.task('build-app-templates', () => {
 		.pipe(gulp.dest(scriptDest + '/templates').on('end', () => util.log('Minified AngularJS HTML templates written to ' + scriptDest + '/templates')));
 });
 
+// deploy AngularJS app data
+gulp.task('build-app-data', () => {
+	return gulp
+		.src(diskDataAngular)
+		.pipe(rename({ dirname: '' }))
+		.pipe(jsonminify())
+		.pipe(gulp.dest(scriptDest + '/data').on('end', () => util.log('AngularJS JSON data written to ' + scriptDest + '/data')));
+});
+
 // concat and minify static main site scripts
 gulp.task('bundle-static-scripts', () => {
 	return gulp
@@ -245,6 +256,7 @@ gulp.task('watch', () => {
 	gulp.watch(scriptMain, ['dev-build-site']);
 	gulp.watch(scriptConditional, ['dev-build-app']);
 	gulp.watch(templatesAngular, ['build-app-templates']);
+	gulp.watch(diskDataAngular, ['build-app-data']);
 });
 
 

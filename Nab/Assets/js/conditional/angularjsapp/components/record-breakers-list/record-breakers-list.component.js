@@ -9,46 +9,30 @@ export const RecordBreakersListComponent = {
 //RecordBreakersListController.$inject = ['$http', 'simpleMathService'];
 
 function RecordBreakersListController($http, simpleMathService) {
+	//let self = this; // no need to do this in ES6
+
 	let a = 12;
 	let b = 24;
 
+	//self.result = simpleMathService.multiply(a, b);
+	//self.title = 'East coast record breakers';
+	//self.orderProp = 'recordDate';
+
 	this.result = simpleMathService.multiply(a, b);
-
 	this.title = 'East coast record breakers';
-	this.records = [
-		{
-			name: 'Flying Scotsman',
-			number: 4472,
-			class: 'A1',
-			built: 1923,
-			snippet: 'First steam locomotive offically recorded at 100 mph, 1934. But still a contentious issue! Part of the <a href="https://en.wikipedia.org/wiki/List_of_rolling_stock_items_in_the_UK_National_Collection">National Collection</a>.',
-			recordDate: 1934
-		},
-		{
-			name: 'Papyrus',
-			number: 2750,
-			class: 'A3',
-			built: 1929,
-			snippet: 'Holder of the world speed record for steam at 108 mph, 1935. Sadly now baked-bean tins.',
-			recordDate: 1935
-		},
-		{
-			name: 'Silver Link',
-			number: 2509,
-			class: 'A4',
-			built: 1935,
-			snippet: 'First of class. Holder of the British speed record for steam at 112 mph on the inaugural Silver Jubilee high-speed streamlined service between Kings Cross and Newcastle, 1935.',
-			recordDate: 1935
-		},
-		{
-			name: 'Mallard',
-			number: 4468,
-			class: 'A4',
-			built: 1938,
-			snippet: 'Current holder of the world speed record for steam at 126 mph, 1938. Part of the <a href="https://en.wikipedia.org/wiki/List_of_rolling_stock_items_in_the_UK_National_Collection">National Collection</a>',
-			recordDate: 1938
-		}
-	];
-
 	this.orderProp = 'recordDate';
+
+	// the 'then' method of the promise object handles the asynchronous response, parsing the response
+	// into the 'data' property. This is used in a callback function to assign the 'records' property 
+	// to the controller. 
+	// 
+	//$http.get('js/data/recordBreakers.json').then(function (response) {
+	//	self.records = response.data;
+	//});
+
+	// alternatively, using the ES6 arrow function 'this' is bound to the anonymous function from
+	// the outer scope and there is no need to instantiate the 'self' variable...
+	// there is a lexical 'this'
+	$http.get('js/data/recordBreakers.json').then(response => this.records = response.data);
+
 }
