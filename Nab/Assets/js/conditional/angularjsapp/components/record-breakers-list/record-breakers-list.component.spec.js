@@ -39,7 +39,7 @@ describe('Record breakers component.', () => {
 			// the response is now returned
 			expect(ctrl.records).toEqual([{ name: 'Papyrus' }, { name: 'Mallard' }]);
 		});
-
+		
 		it('should set a default value for the `orderProp` model', () => {
 			expect(ctrl.orderProp).toBe('recordDate');
 		});

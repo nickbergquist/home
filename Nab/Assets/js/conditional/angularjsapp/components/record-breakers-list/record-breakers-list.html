@@ -23,7 +23,7 @@
 <ul class="list-standard">
     <li data-ng-repeat="record in $ctrl.records | filter:$ctrl.query | orderBy:$ctrl.orderProp">
         <h3>{{ record.class }} No. {{ record.number }}, "{{ record.name }}" - {{ record.recordDate }}</h3>
-        <p>Built {{ record.built }}. {{ record.snippet }}</p>
+        <p ng-bind-html="record.snippet | linky">Built {{ record.built }}. {{ record.snippet }}</p>
     </li>
 </ul>
 

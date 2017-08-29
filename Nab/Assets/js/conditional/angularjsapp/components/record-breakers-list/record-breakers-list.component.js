@@ -30,9 +30,8 @@ function RecordBreakersListController($http, simpleMathService) {
 	//	self.records = response.data;
 	//});
 
-	// alternatively, using the ES6 arrow function 'this' is bound to the anonymous function from
+	// alternatively, using the ES6 arrow function - 'this' is bound to the anonymous function from
 	// the outer scope and there is no need to instantiate the 'self' variable...
 	// there is a lexical 'this'
 	$http.get('js/data/recordBreakers.json').then(response => this.records = response.data);
-
 }
