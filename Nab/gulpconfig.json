@@ -15,10 +15,13 @@
       "srcConditional": "./Assets/js/conditional/**/*.js",
       "srcConditionalIgnore": "!./Assets/js/conditional/angularjsapp/**/*.js",
       "srcAngular": "./Assets/js/conditional/angularjsapp/**/*.js",
-      "templatesAngular": "./Assets/js/conditional/angularjsapp/**/*.html",
-      "diskDataAngular":  "./angularjs/data/**/*.json",
+      "templatesAngular": "./Assets/js/conditional/angularjsapp/components/**/*.html",
+      "imagesAngular": "./Assets/js/conditional/angularjsapp/images/**/*.{jpg,png}",
+      "diskDataAngular": "./Assets/js/conditional/angularjsapp/data/**/*.json",
       "mainAngular": "./Assets/js/conditional/angularjsapp/app.module.js",
+      "mainAngularConfig": "./Assets/js/conditional/angularjsapp/app.config.js",
       "dest": "./wwwroot/js",
+      "destAngularAppFiles": "./wwwroot/js/appfiles",
       "generalSiteLintConfig": "./Assets/js/main/.eslintrc.js",
       "angularjsLintConfig": "./Assets/js/conditional/angularjsapp/.eslintrc.js"
     }

@@ -1,5 +1,12 @@
 ﻿'use strict';
 
+var env = {};
+
+// import config. variables in app.config.js
+if (window) {
+	Object.assign(env, window.__env);
+}
+
 import { ComponentsModule } from './components/components.module';
 
 export const AppModule = angular
@@ -7,7 +14,5 @@ export const AppModule = angular
 		'ngSanitize',
 		ComponentsModule
 	])
-	.constant('config', {
-		pathTemplates: 'js/templates/'
-	})
+	.constant('__env', env)
 	.name;

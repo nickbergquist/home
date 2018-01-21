@@ -35,8 +35,8 @@
     "vinyl-source-stream": "1.1.0"
   },
   "scripts": {
-    "unit-tests": "karma start angularjs/karma.conf.js",
+    "unit-tests": "karma start assets/js/conditional/angularjsapp/unit-tests/karma.conf.js",
     "update-webdriver": "webdriver-manager update",
-    "e2e-tests": "protractor angularjs/e2e-tests/protractor.conf.js"
+    "e2e-tests": "protractor assets/js/conditional/angularjsapp/e2e-tests/protractor.conf.js"
   }
 }

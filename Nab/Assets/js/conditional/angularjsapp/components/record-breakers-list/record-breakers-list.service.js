@@ -1,8 +1,15 @@
 ﻿'use strict';
 
-// export the service
-export function RecordBreakersListService () {
-	this.multiply = (x, y) => {
-		return x * y;
+export function RecordBreakersListService($http, __env) {
+
+	return {
+		getTemplate: function () {
+			return __env.pathTemplates + 'record-breakers-list.html';
+		},
+		getData: function () {
+			return $http
+				.get(__env.pathData + 'recordBreakers.json')
+				.then(response => response.data);
+		}
 	};
 }

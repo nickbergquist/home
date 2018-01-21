@@ -2,36 +2,26 @@
 
 // export the Component Definition Object (CDO)
 export const RecordBreakersListComponent = {
-	templateUrl: config => config.pathTemplates + 'record-breakers-list.html',
+	templateUrl: TemplatePath,
 	controller: RecordBreakersListController
 };
 
-//RecordBreakersListController.$inject = ['$http', 'simpleMathService'];
+function TemplatePath(resourcePathService) {
+	return resourcePathService.getTemplate();
+}
 
-function RecordBreakersListController($http, simpleMathService) {
-	//let self = this; // no need to do this in ES6
-
-	let a = 12;
-	let b = 24;
-
-	//self.result = simpleMathService.multiply(a, b);
-	//self.title = 'East coast record breakers';
-	//self.orderProp = 'recordDate';
-
-	this.result = simpleMathService.multiply(a, b);
+function RecordBreakersListController(resourcePathService) {
 	this.title = 'East coast record breakers';
 	this.orderProp = 'recordDate';
+	this.records = [];
 
-	// the 'then' method of the promise object handles the asynchronous response, parsing the response
-	// into the 'data' property. This is used in a callback function to assign the 'records' property 
-	// to the controller. 
-	// 
-	//$http.get('js/data/recordBreakers.json').then(function (response) {
-	//	self.records = response.data;
-	//});
+	// 'then' method of the promise object parses the asynchronous response... 
+	// then used in a callback function to assign the 'records' property to the controller
+	resourcePathService
+		.getData()
+		.then(response => this.records = response);
 
-	// alternatively, using the ES6 arrow function - 'this' is bound to the anonymous function from
-	// the outer scope and there is no need to instantiate the 'self' variable...
+	// using the ES6 arrow function - 'this' is bound to the anonymous function from
+	// the outer scope and there is no need to instantiate a parent function 'self' variable...
 	// there is a lexical 'this'
-	$http.get('js/data/recordBreakers.json').then(response => this.records = response.data);
 }

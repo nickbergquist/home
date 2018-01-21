@@ -262,7 +262,7 @@ __pycache__/
 
 # Local project specific
 securesettings.json
-/Nab/wwwroot/images/pspbrwse.jbf
+*.jbf
 /Nab/wwwroot/css
 /Nab/wwwroot/js
 /Nab/Properties/PublishProfiles
