@@ -34,7 +34,8 @@ namespace Nab.Services
                 emailMessage.Subject = subject;
                 emailMessage.Body = new TextPart(TextFormat.Text)
                 {
-                    Text = string.Format(message + "{0}{0}Original sender: " + senderEmail, Environment.NewLine)
+                    Text = message
+                    //Text = string.Format(message + "{0}{0}Original sender: " + senderEmail, Environment.NewLine)
                     //Text = message + Environment.NewLine + "Original sender: " + senderEmail
                 };
 
