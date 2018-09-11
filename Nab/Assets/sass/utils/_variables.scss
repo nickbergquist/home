@@ -53,7 +53,7 @@ $svg-icons-type-name: map-get(map-get($fonts, $svg-icons-type), name);
 $svg-icons-type-path: map-get(map-get($fonts, $svg-icons-type), path);
 $svg-icons-font-family: map-get(map-get($fonts, $svg-icons-type), family);
 
-$heading-colour: darken(palette-colour($palette-main, 'background'), 15%) !default;
+$heading-colour: darken(palette-colour($palette-main, 'background'), 20%) !default;
 $heading-colour-variant: lighten(palette-colour($palette-main, 'background'), 7.5%) !default;
 $h1-size: 29px !default;
 $h2-size: 24px !default;
@@ -113,7 +113,7 @@ $nav-main-anchor-colour: palette-colour($palette-mono, 'lightest') !default;
 //  shadows & gradients  //
 ///////////////////////////
 
-$edge-shadow-colour: palette-colour-alpha($palette-mono, 'darkest', 'light') !default;
+$edge-shadow-colour: palette-colour($palette-mono, 'darkest') !default;
 $edge-shadow-colour-variant: palette-colour($palette-mono, 'darkest') !default;
 $code-inline-background-colour: palette-colour($palette-mono, 'offwhite') !default;
 $code-inline-border-colour: palette-colour($palette-mono, 'lighter') !default;

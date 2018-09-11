@@ -68,7 +68,7 @@ h1,
 h2,
 h3 {
   color: $heading-colour;
-  text-shadow: 1px 1px 1px $edge-shadow-colour;
+  text-shadow: 0 2px 1px $edge-shadow-colour;
 }
 
 h4,
@@ -79,7 +79,7 @@ h6 {
 }
 
 h1 {
-  color: darken(palette-colour($palette-main, 'background'), 15%);
+  color: $heading-colour;
   text-align: center;
 }
 
