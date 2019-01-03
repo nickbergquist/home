@@ -14,7 +14,7 @@
   padding-top: .3rem;
 
   & a {
-    color: darken(palette-colour($palette-mono, 'lightest'), 10%);
+    color: palette-colour($palette-mono, 'lightest');
     font-family: #{$base-heading-font-family};
     font-size: calc-rem(28px)#{'rem'};
     text-decoration: none;
