@@ -87,9 +87,9 @@ $button-nav-hover-colour: palette-colour($palette-mono, 'light') !default;
 $button-nav-active-colour: palette-colour($palette-mono, 'light') !default;
 $button-nav-content: '\e800' !default;
 $button-nav-active-content: '\e801' !default;
-$button-nav-background-colour: palette-colour-alpha($palette-mono, 'lightest', 'dark') !default;
+$button-nav-background-colour: transparent !default;
 $button-nav-font-size: 35px !default;
-$button-nav-padding: 7px !default;
+$button-nav-padding: 5px !default;
 $button-nav-height: 50px !default;
 $button-nav-width: 50px !default;
 
