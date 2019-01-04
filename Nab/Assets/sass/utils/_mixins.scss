@@ -95,7 +95,7 @@
 
 @mixin font-face($family, $src, $style: normal, $weight: normal) {
   @font-face {
-    font-display: auto;
+    font-display: fallback;
     font-family: $family;
     font-style: $style;
     font-weight: $weight;
