@@ -18,10 +18,10 @@ namespace Nab.Controllers
             return View();
         }
 
-        [Route("angularjs-thing", Name = RouteNames.AngularJSThing)]
-        public IActionResult AngularJSThing()
-        {
-            return View();
-        }
+        //[Route("angularjs-thing", Name = RouteNames.AngularJSThing)]
+        //public IActionResult AngularJSThing()
+        //{
+        //    return View();
+        //}
     }
 }

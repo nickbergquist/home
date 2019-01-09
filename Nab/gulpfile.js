@@ -12,18 +12,12 @@ const sass = require('gulp-sass');
 const sassLint = require('gulp-sass-lint');
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCss = require('gulp-clean-css');
-const htmlclean = require('gulp-htmlclean');
 const sourcemaps = require('gulp-sourcemaps');
 const config = loadJsonFile.sync('gulpconfig.json');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
-const jsonminify = require('gulp-jsonminify');
 const del = require('del');
 const eslint = require('gulp-eslint');
-const browserify = require('browserify');
-const babelify = require('babelify');
-const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
 const gzip = require('gulp-gzip');
 
 
@@ -41,15 +35,9 @@ const mainSite = config.paths.javascript.mainSite;
 const scriptStatic = config.paths.javascript.srcStatic;
 const scriptConditional = config.paths.javascript.srcConditional;
 const scriptConditionalIgnore = config.paths.javascript.srcConditionalIgnore;
-const scriptAngular = config.paths.javascript.srcAngular;
-const templatesAngular = config.paths.javascript.templatesAngular;
-const imagesAngular = config.paths.javascript.imagesAngular;
-const diskDataAngular = config.paths.javascript.diskDataAngular;
-const mainAngularApp = config.paths.javascript.mainAngular;
-const mainAngularConfig = config.paths.javascript.mainAngularConfig;
 const scriptDest = config.paths.javascript.dest;
 const scriptGenSiteLintConfig = config.paths.javascript.generalSiteLintConfig;
-const scriptAngAppLintConfig = config.paths.javascript.angularjsLintConfig;
+
 
 /**
  * SASS/CSS
@@ -129,7 +117,7 @@ gulp.task('tear-down-css', () => {
  * JAVASCRIPT
  */
 // development: copy, build and lint
-gulp.task('dev-scripts', ['tear-down-scripts', 'dev-build-site', 'dev-build-app', 'view-specific-scripts']);
+gulp.task('dev-scripts', ['tear-down-scripts', 'dev-build-site', 'view-specific-scripts']);
 
 // development: main site script(s) with linting
 gulp.task('dev-build-site', ['bundle-static-scripts'], () => {
@@ -141,52 +129,11 @@ gulp.task('dev-build-site', ['bundle-static-scripts'], () => {
 		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Unaltered main site JS written to ' + scriptDest)));
 });
 
-// development: app - linting, transpiling, bundling and sourcemap
-gulp.task('dev-build-app', ['lint-app', 'build-app-templates', 'build-app-data', 'build-app-images', 'build-app-config'], () => {
-	let bundler = browserify({
-		entries: mainAngularApp,
-		debug: true,
-		transform: [babelify.configure({
-			presets: ['es2015']
-		})]
-	});
-
-	// invoke babel transpile of the browserify input using the babelify browserify transform
-	bundler.transform(babelify);
-
-	return bundler
-		.bundle()
-		.pipe(source('app.js'))
-		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Angular JS written to ' + scriptDest)));
-});
-
 // production: main task
-gulp.task('pub-scripts', ['tear-down-scripts', 'pub-build-site', 'pub-build-app', 'view-specific-scripts']);
+gulp.task('pub-scripts', ['tear-down-scripts', 'pub-build-site', 'view-specific-scripts']);
 
 // production: main site script(s) with minification
 gulp.task('pub-build-site', ['bundle-main-site-static-scripts']);
-
-// production: app - transpiling, bundling, minification, no sourcemap, gzipped
-gulp.task('pub-build-app', ['build-app-templates', 'build-app-data', 'build-app-images', 'pub-app-config'], () => {
-	let bundler = browserify({
-		entries: mainAngularApp,
-		debug: false,
-		transform: [babelify.configure({
-			presets: ['es2015'],
-			plugins: ['angularjs-annotate']
-		})]
-	});
-
-	bundler.transform(babelify);
-
-	return bundler
-		.bundle()
-		.pipe(source('app.gz.min.js')) // this is a streaming vinyl file object
-		.pipe(buffer()) // convert from streaming to buffered vinyl file object
-		.pipe(uglify({ mangle: false })) // uglify() requires a buffered vinyl file object / mangle property is to minify AngularJS
-		.pipe(gzip({ append: false }))
-		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Minified Angular JS written to ' + scriptDest)));
-});
 
 // production: concatenate, minify and HTTP compress static scripts and main site script
 gulp.task('bundle-main-site-static-scripts', () => {
@@ -196,56 +143,6 @@ gulp.task('bundle-main-site-static-scripts', () => {
 		.pipe(uglify())
 		.pipe(gzip({ append: false }))
 		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Minified main/static site JS written to ' + scriptDest)));
-});
-
-gulp.task('lint-app', () => {
-	return gulp
-		.src([scriptAngular], { dot: false })
-		.pipe(eslint({ configFile: scriptAngAppLintConfig }))
-		.pipe(eslint.format())
-		//.pipe(eslint.failAfterError())
-});
-
-// deploy AngularJS app HTML templates
-gulp.task('build-app-templates', () => {
-	return gulp
-		.src(templatesAngular)
-		.pipe(rename({ dirname: '' })) // remove source directory(s)
-		.pipe(htmlclean())
-		.pipe(gulp.dest(scriptDest + '/appfiles/templates').on('end', () => util.log('Minified AngularJS HTML templates written to ' + scriptDest + '/appfiles/templates')));
-});
-
-// deploy AngularJS app data
-gulp.task('build-app-data', () => {
-	return gulp
-		.src(diskDataAngular)
-		.pipe(rename({ dirname: '' }))
-		.pipe(jsonminify())
-		.pipe(gulp.dest(scriptDest + '/appfiles/data').on('end', () => util.log('AngularJS JSON data written to ' + scriptDest + '/appfiles/data')));
-});
-
-// deploy AngularJS app images
-gulp.task('build-app-images', () => {
-	return gulp
-		//.src("./Assets/js/conditional/angularjsapp/images/**/*.{jpg,png}")
-		.src(imagesAngular)
-		.pipe(rename({ dirname: '' }))
-		.pipe(gulp.dest(scriptDest + '/appfiles/images').on('end', () => util.log('AngularJS images written to ' + scriptDest + '/appfiles/images')));
-});
-
-gulp.task('build-app-config', () => {
-	return gulp
-		.src(mainAngularConfig)
-		.pipe(gulp.dest(scriptDest).on('end', () => util.log('AngularJS config written to ' + scriptDest)));
-});
-
-gulp.task('pub-app-config', () => {
-	return gulp
-		.src(mainAngularConfig)
-		.pipe(rename({suffix: '.gz.min' }))
-		.pipe(uglify())
-		.pipe(gzip({ append: false }))
-		.pipe(gulp.dest(scriptDest).on('end', () => util.log('Minified AngularJS config written to ' + scriptDest)));
 });
 
 // concat and minify static main site scripts
@@ -280,10 +177,6 @@ gulp.task('tear-down-scripts', () => {
 gulp.task('watch', () => {
 	gulp.watch([scssSrc, scssIgnore], ['dev-build-sass']);
 	gulp.watch(scriptMain, ['dev-build-site']);
-	gulp.watch(scriptConditional, ['dev-build-app']);
-	gulp.watch(templatesAngular, ['build-app-templates']);
-	gulp.watch(imagesAngular, ['build-app-images']);
-	gulp.watch(diskDataAngular, ['build-app-data']);
 });
 
 
