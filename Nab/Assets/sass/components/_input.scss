@@ -92,7 +92,7 @@
 
   &::before {
     content: $button-nav-content;
-    padding: calc-rem($button-nav-padding)#{'rem'};
+    padding: $button-nav-padding;
   }
 
   &:hover {

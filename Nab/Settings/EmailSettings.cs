@@ -1,7 +1,7 @@
 ﻿namespace Nab.Settings
 {
     /// <summary>
-    /// E-mail settings - deserialize from appsettings.json during startup 
+    /// E-mail settings - deserialize from securesettings.json during startup 
     /// </summary>
     public class EmailSettings
     {

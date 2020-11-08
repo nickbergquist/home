@@ -25,7 +25,7 @@
         &::after {
           border-left: 25px solid transparent;
           border-right: 25px solid transparent;
-          border-top: 15px solid palette-colour($palette-mono, 'dark');
+          border-top: 15px solid palette-colour($palette-mono, 'darker');
           bottom: -1rem;
           content: '';
           height: 0;

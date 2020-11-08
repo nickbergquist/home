@@ -81,6 +81,10 @@ main {
       color: palette-colour('mono', 'lightest');
       padding: .5rem percentage(40/strip-units($max-viewport-width)) .25rem; // 20px either side at full width
       text-align: center;
+
+      & h2 {
+        color: palette-colour($palette-mono, 'lightest');
+      }
     }
 
     & .portfolio {

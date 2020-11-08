@@ -13,17 +13,10 @@
       "mainSite": "./Assets/js/main/site.js",
       "srcStatic": "./Assets/js/static/",
       "srcConditional": "./Assets/js/conditional/**/*.js",
-      "srcConditionalIgnore": "!./Assets/js/conditional/angularjsapp/**/*.js",
-      "srcAngular": "./Assets/js/conditional/angularjsapp/**/*.js",
-      "templatesAngular": "./Assets/js/conditional/angularjsapp/components/**/*.html",
-      "imagesAngular": "./Assets/js/conditional/angularjsapp/images/**/*.{jpg,png}",
-      "diskDataAngular": "./Assets/js/conditional/angularjsapp/data/**/*.json",
-      "mainAngular": "./Assets/js/conditional/angularjsapp/app.module.js",
-      "mainAngularConfig": "./Assets/js/conditional/angularjsapp/app.config.js",
+      "srcConditionalIgnore": "!./Assets/js/conditional/**/*.fwibble",
       "dest": "./wwwroot/js",
       "destAngularAppFiles": "./wwwroot/js/appfiles",
-      "generalSiteLintConfig": "./Assets/js/main/.eslintrc.js",
-      "angularjsLintConfig": "./Assets/js/conditional/angularjsapp/.eslintrc.js"
+      "generalSiteLintConfig": "./Assets/js/main/.eslintrc.js"
     }
   }
 }
